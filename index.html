@@ -31,10 +31,19 @@
   .wrap{max-width:840px;margin:0 auto;padding:22px 16px 90px}
   .logo{width:min(260px,62vw);height:auto;display:block;margin:0 auto 6px;
     filter:drop-shadow(0 3px 8px rgba(40,30,15,.18))}
+  .title-orn{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.35em;
+    font-size:13px;color:var(--ember);text-transform:uppercase;margin-bottom:10px}
+  h1 .wolf{
+    background:linear-gradient(180deg,#e8c65a 0%,var(--gold) 45%,#a9822c 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    color:var(--gold)}
+  h1{position:relative}
+  h1::after{content:"";display:block;width:70px;height:4px;margin:16px auto 0;
+    background:linear-gradient(90deg,transparent,var(--ember),transparent);border-radius:2px}
   header.top{text-align:center;padding:18px 0 8px}
   .eyebrow{font-family:'Oswald',sans-serif;letter-spacing:.28em;font-weight:500;
     text-transform:uppercase;font-size:12px;color:var(--ember);margin-bottom:6px}
-  h1{font-family:'Anton',Impact,sans-serif;font-size:clamp(38px,9vw,60px);line-height:.95;
+  h1{font-family:'Anton',Impact,sans-serif;font-size:clamp(46px,11vw,72px);line-height:.9;
     font-weight:400;letter-spacing:1px;text-transform:uppercase}
   .wolf{color:var(--wolf)}
   .sub{color:var(--ink-soft);font-size:14px;margin-top:8px;font-style:italic}
@@ -122,6 +131,20 @@
   .ptbadge{min-width:44px;text-align:right;font-family:'DejaVu Sans Mono',monospace;font-weight:700;color:var(--wolf)}
   .medalmini{margin-left:4px}
   .info{background:var(--sand);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-soft);margin-bottom:12px}
+  /* onglet Règles visible sur mobile uniquement */
+  .tab-mobile{display:none}
+  @media (max-width:760px){.tab-mobile{display:inline-block}}
+  .reg-list{margin:0 0 0 22px;padding:0}
+  .reg-list li{padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .reg-list li:last-child{border-bottom:none}
+  .reg-p{font-size:15px;line-height:1.5;margin-bottom:10px}
+  .reg-bul{margin:0 0 4px 20px;padding:0}
+  .reg-bul li{padding:5px 0;font-size:15px;line-height:1.45}
+  .reg-ex{background:var(--sand);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin:12px 0;font-family:'DejaVu Sans Mono',monospace;
+    font-size:13px;line-height:1.6;color:var(--ink)}
+  .reg-ex-t{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;
+    font-size:12px;color:var(--ember);margin-bottom:4px}
   @media (max-width:560px){.step .nm{font-size:13px}}
 
   /* ===== GRAND ÉCRAN / TÉLÉ (paysage large) ===== */
@@ -166,15 +189,16 @@
 <div id="bgveil"></div>
 <div class="wrap">
   <header class="top">
-    <img src="logo-mechoui.png" alt="Le Méchoui Des Réveillère" class="logo">
-    <h1>Les Jeux <span class="wolf">Jeannettiques</span></h1>
-    <div class="eyebrow" style="margin-top:10px;margin-bottom:0">Édition 2026 · Le grand tournoi du méchoui familial</div>
+    <h1>Les Jeux<br><span class="wolf">Jeannettiques</span></h1>
+    <div class="title-orn" style="margin-top:14px;margin-bottom:0">✦ ÉDITION 2026 ✦</div>
+    <div class="eyebrow" style="margin-top:10px;margin-bottom:0">Le grand tournoi du méchoui familial</div>
     <div class="sub">Classement en direct — chacun pour soi</div>
   </header>
 
   <div class="tabs">
     <button class="tab active" id="tabPublic">🏆 Classement</button>
     <button class="tab" id="tabAdmin">🔧 Saisie</button>
+    <button class="tab tab-mobile" id="tabRegles">📖 Règles</button>
   </div>
 
   <!-- ============ PUBLIC ============ -->
@@ -236,6 +260,46 @@
       <div class="card" style="text-align:center">
         <button class="btn ghost sm" id="logoutBtn">Verrouiller la saisie</button>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ RÈGLES (mobile) ============ -->
+  <section id="viewRegles" class="hide">
+    <div class="card">
+      <h2>🎯 Les épreuves</h2>
+      <p class="muted" style="margin-bottom:10px">15 épreuves solo, chacun pour soi. On joue chaque épreuve à son tour et on note le classement.</p>
+      <ol class="reg-list" id="reglesEpreuves"></ol>
+    </div>
+
+    <div class="card">
+      <h2>🏅 Le barème</h2>
+      <p class="reg-p">Dans chaque épreuve, les points dépendent de ta <b>place d'arrivée</b> et s'adaptent au nombre de joueurs (N) :</p>
+      <ul class="reg-bul">
+        <li>Le <b>dernier marque 1 point</b>, et on gagne <b>+1 point par place</b> au-dessus.</li>
+        <li>Bonus podium&nbsp;: <b>+4</b> pour le 1ᵉʳ, <b>+2</b> pour le 2ᵉ, <b>+1</b> pour le 3ᵉ.</li>
+        <li>Tu ne fais pas une épreuve&nbsp;? <b>0 point</b> sur celle-ci.</li>
+      </ul>
+      <div class="reg-ex">
+        <div class="reg-ex-t">Exemple sur 20 joueurs</div>
+        1ᵉʳ = 24 pts · 2ᵉ = 21 · 3ᵉ = 19 · 4ᵉ = 17 · 5ᵉ = 16 … dernier = 1 pt
+      </div>
+      <p class="reg-p">Le classement général additionne les points de toutes les épreuves.</p>
+    </div>
+
+    <div class="card">
+      <h2>⚖️ Les égalités</h2>
+      <p class="reg-p"><b>Dans une épreuve&nbsp;:</b> en cas d'ex æquo, on tranche par un petit duel sur un mini-jeu.</p>
+      <p class="reg-p"><b>Au classement général&nbsp;:</b> à points égaux, on départage sur le nombre de 1ʳᵉˢ places, puis de 2ᵉˢ, et ainsi de suite.</p>
+    </div>
+
+    <div class="card">
+      <h2>🔥 Le déroulement</h2>
+      <ul class="reg-bul">
+        <li>Chaque épreuve se joue à tour de rôle, tout le monde peut y participer.</li>
+        <li>L'organisateur note les places au fur et à mesure.</li>
+        <li>Le classement se met à jour <b>en direct</b> — suis ta progression sur ton téléphone&nbsp;!</li>
+        <li>Le podium final récompense les trois meilleurs cumuls de la journée.</li>
+      </ul>
     </div>
   </section>
 
@@ -514,8 +578,19 @@ async function login(){
 function logout(){isAdmin=false;$("#adminPanel").classList.add("hide");$("#lockCard").classList.remove("hide");$("#adminPass").value="";$("#lockMsg").textContent="";}
 
 /* ===== tabs ===== */
-$("#tabPublic").onclick=()=>{$("#tabPublic").classList.add("active");$("#tabAdmin").classList.remove("active");$("#viewPublic").classList.remove("hide");$("#viewAdmin").classList.add("hide");};
-$("#tabAdmin").onclick=()=>{$("#tabAdmin").classList.add("active");$("#tabPublic").classList.remove("active");$("#viewAdmin").classList.remove("hide");$("#viewPublic").classList.add("hide");};
+$("#tabPublic").onclick=()=>{setTab("Public");};
+$("#tabAdmin").onclick=()=>{setTab("Admin");};
+$("#tabRegles").onclick=()=>{fillRegles();setTab("Regles");};
+function setTab(which){
+  ["Public","Admin","Regles"].forEach(v=>{
+    $("#tab"+v).classList.toggle("active", v===which);
+    $("#view"+v).classList.toggle("hide", v!==which);
+  });
+}
+function fillRegles(){
+  const ol=$("#reglesEpreuves"); if(!ol)return;
+  ol.innerHTML = epreuves.map(e=>`<li>${esc(e.nom)}</li>`).join("");
+}
 
 /* ===== wiring ===== */
 $("#addPart").onclick=addPart;$("#newPart").addEventListener("keydown",e=>{if(e.key==="Enter")addPart();});
