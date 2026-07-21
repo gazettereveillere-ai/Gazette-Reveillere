@@ -59,8 +59,9 @@
   .card h2{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
     letter-spacing:.03em;font-size:20px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:10px auto 4px;max-width:480px}
+  .podcol{flex:1 1 0;max-width:150px;display:flex;flex-direction:column;align-items:stretch}
   .podium-base{max-width:480px;margin-left:auto;margin-right:auto}
-  .step{flex:1;max-width:150px;text-align:center;border-radius:12px 12px 0 0;
+  .step{width:100%;text-align:center;border-radius:12px 12px 0 0;
     padding:12px 6px 10px;color:var(--ink);position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1);
     display:flex;flex-direction:column;justify-content:flex-end}
   .step .pod-drop{display:flex;flex-direction:column;align-items:center}
@@ -87,9 +88,12 @@
   .step.s3 .pod-drop{animation-delay:.55s}
   @keyframes drop{0%{opacity:0;transform:translateY(-40px)}60%{opacity:1;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
   .step .rk{display:none}
-  .podium-labels{display:flex;justify-content:center;gap:10px;margin:0 auto 14px;max-width:480px}
-  .plabel{flex:1 1 0;max-width:150px;text-align:center;font-family:'Anton',Impact,sans-serif;
-    font-size:30px;line-height:1;letter-spacing:.5px}
+  .podseg{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
+    margin:0 -5px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .podcol:first-child .podseg{border-radius:0 0 0 8px;margin-left:0}
+  .podcol:last-child .podseg{border-radius:0 0 8px 0;margin-right:0}
+  .plabel{width:100%;text-align:center;font-family:'Anton',Impact,sans-serif;
+    font-size:30px;line-height:1;letter-spacing:.5px;margin-top:14px;margin-bottom:6px}
   .s1-lab{color:var(--gold)}.s2-lab{color:var(--silver)}.s3-lab{color:var(--bronze)}
   .podium-base{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
     border-radius:0 0 8px 8px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
@@ -173,13 +177,13 @@
     .card h2{font-size:32px;margin-bottom:20px}
     /* podium bien plus grand */
     .podium{gap:22px;margin:20px auto 6px;max-width:960px}
-    .podium-labels{max-width:960px;margin:0 auto 14px}
-    .podium-base{max-width:960px;margin-left:auto;margin-right:auto;height:18px}
-    .step{max-width:300px;padding:22px 14px 18px;border-radius:18px 18px 0 0}
+    .podcol{max-width:300px}
+    .podseg{height:18px;margin:0 -11px}
+    .step{padding:22px 14px 18px;border-radius:18px 18px 0 0}
     .step .medal{font-size:52px}
     .step .nm{font-size:30px}
     .step .pts{font-size:24px}
-    .plabel{font-size:56px}
+    .plabel{font-size:56px;margin-top:26px}
     .s1{height:280px}.s2{height:210px}.s3{height:168px}
     /* tableau lisible de loin */
     table{font-size:26px}
@@ -220,8 +224,6 @@
     <div class="card">
       <h2><span class="live-dot"></span>Podium</h2>
       <div class="podium" id="podium"></div>
-      <div class="podium-base"></div>
-      <div class="podium-labels" id="podiumLabels"></div>
     </div>
     <div class="card">
       <h2>Classement général</h2>
@@ -430,25 +432,24 @@ function ranking(){
 /* ===== rendu podium ===== */
 function renderPodium(){
   const box=$("#podium"); box.innerHTML="";
-  const labelBox=$("#podiumLabels"); if(labelBox)labelBox.innerHTML="";
   const r=ranking().filter(x=>x.total>0);
   if(!r.length){box.innerHTML='<p class="muted" style="padding:20px 0">En attente des premiers résultats…</p>';return;}
   const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["1ᵉʳ","2ᵉ","3ᵉ"];
   order.forEach(idx=>{
     if(!r[idx])return;
+    const col=el("div","podcol");
     const d=el("div","step "+cls[idx]);
     d.innerHTML=`<span class="pod-drop">
         <span class="medal">${medals[idx]}</span>
         <span class="nm">${esc(r[idx].p.nom)}</span>
         <span class="pts">${r[idx].total} pts</span>
       </span>`;
-    box.appendChild(d);
-    // grosse étiquette de place sous la marche
-    if(labelBox){
-      const lab=el("div","plabel "+cls[idx]+"-lab");
-      lab.textContent=rk[idx];
-      labelBox.appendChild(lab);
-    }
+    const lab=el("div","plabel "+cls[idx]+"-lab");
+    lab.textContent=rk[idx];
+    col.appendChild(d);
+    col.appendChild(el("div","podseg"));
+    col.appendChild(lab);
+    box.appendChild(col);
   });
   // déclenche l'animation de chute (double rAF + fallback)
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
