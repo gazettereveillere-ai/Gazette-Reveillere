@@ -109,6 +109,16 @@
   tr.top2 td.rank{color:var(--silver)}
   tr.top3 td.rank{color:var(--bronze)}
   .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .ephead{text-align:center;min-width:44px}
+  .ephead .epnum{display:block;font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:13px;color:var(--wolf);line-height:1}
+  .ephead .epemo{display:block;font-size:16px;line-height:1.3}
+  .ep-legend{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:6px 14px}
+  .ep-legend-t{flex-basis:100%;font-family:'Oswald',sans-serif;text-transform:uppercase;
+    letter-spacing:.08em;font-size:12px;color:var(--ember);margin-bottom:2px}
+  .ep-leg-item{font-size:13px;color:var(--ink-soft);white-space:nowrap}
+  .ep-leg-item b{color:var(--wolf)}
   .scroll-wrap{position:relative}
   .scroll-hint{text-align:right;font-family:'Oswald',sans-serif;font-size:13px;
     text-transform:uppercase;letter-spacing:.08em;color:var(--ember);
@@ -225,6 +235,7 @@
         <div class="scroll-hint" id="scrollHint">glisse pour voir les épreuves →</div>
       </div>
       <p class="muted" id="emptyPublic" style="margin-top:8px"></p>
+      <div class="ep-legend" id="epLegend"></div>
     </div>
   </section>
 
@@ -351,6 +362,25 @@ const $=s=>document.querySelector(s);
 const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
 function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function short(s){return s.length>14?s.slice(0,13)+"…":s;}
+function epEmoji(nom){
+  const n=(nom||"").toLowerCase();
+  if(n.includes("chamboule")) return "🥫";
+  if(n.includes("pétanque")||n.includes("petanque")) return "🎯";
+  if(n.includes("anneau")) return "⭕";
+  if(n.includes("cornhole")||n.includes("sac")) return "🌽";
+  if(n.includes("sabot")) return "🥾";
+  if(n.includes("beer")||n.includes("pong")) return "🍺";
+  if(n.includes("quiz")) return "❓";
+  if(n.includes("estimation")||n.includes("mystère")||n.includes("mystere")) return "🔮";
+  if(n.includes("mölkky")||n.includes("molkky")) return "🎳";
+  if(n.includes("fléchette")||n.includes("flechette")) return "🎯";
+  if(n.includes("palet")) return "🥏";
+  if(n.includes("agilité")||n.includes("agilite")||n.includes("parcours")) return "🏃";
+  if(n.includes("réflexion")||n.includes("reflexion")||n.includes("énigme")||n.includes("enigme")) return "🧩";
+  if(n.includes("memory")||n.includes("mémoire")||n.includes("memoire")) return "🃏";
+  if(n.includes("casse")||n.includes("rubik")||n.includes("puzzle")) return "🧠";
+  return "🏅";
+}
 function placeOf(pid,eid){const r=places.find(x=>x.participant_id===pid&&x.epreuve_id===eid);return r&&r.place?r.place:null;}
 
 /* ===== BARÈME =====
@@ -439,7 +469,7 @@ function renderRank(){
   const r=ranking();
   const htr=el("tr");
   htr.innerHTML=`<th class="stick stick-rank"></th><th class="stick stick-name">Participant</th>`+
-    epreuves.map(e=>`<th style="text-align:center">${esc(short(e.nom))}</th>`).join("")+
+    epreuves.map((e,i)=>`<th class="ephead" title="${esc(e.nom)}"><span class="epnum">${i+1}</span><span class="epemo">${epEmoji(e.nom)}</span></th>`).join("")+
     `<th style="text-align:right">Total</th>`;
   thead.innerHTML=""; thead.appendChild(htr);
   tb.innerHTML="";
@@ -459,6 +489,14 @@ function renderRank(){
     tb.appendChild(tr);
   });
   updateScrollHint();
+  // légende des épreuves
+  const leg=$("#epLegend");
+  if(leg){
+    leg.innerHTML = epreuves.length
+      ? "<div class='ep-legend-t'>Les épreuves</div>" + epreuves.map((e,i)=>
+          `<span class="ep-leg-item"><b>${i+1}</b> ${epEmoji(e.nom)} ${esc(e.nom)}</span>`).join("")
+      : "";
+  }
 }
 function updateScrollHint(){
   const sc=$("#rankScroll"), hint=$("#scrollHint");
