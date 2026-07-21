@@ -145,6 +145,20 @@
   .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;animation:pulse 1.6s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .place-in{width:70px;text-align:center;font-family:'DejaVu Sans Mono',monospace}
+  .score-in{width:64px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:7px 6px}
+  .maxhint{font-size:12px;color:var(--ink-soft);margin-left:6px}
+  /* grille tableau complet (type Excel) */
+  #scoreGridFull table{font-size:13px}
+  #scoreGridFull th,#scoreGridFull td{padding:6px 6px;text-align:center;border:1px solid var(--line)}
+  #scoreGridFull th.stick,#scoreGridFull td.stick{position:sticky;left:0;z-index:2;
+    background:rgba(245,240,228,.98);text-align:left;box-shadow:2px 0 5px -2px rgba(40,30,15,.18);min-width:120px}
+  #scoreGridFull thead th{font-family:'Oswald',sans-serif;font-weight:500;font-size:11px;
+    color:var(--ink-soft);text-transform:none;vertical-align:bottom;min-width:76px}
+  #scoreGridFull thead th .emo{display:block;font-size:16px}
+  #scoreGridFull td.tot{font-weight:800;font-family:'DejaVu Sans Mono',monospace;color:var(--wolf);
+    background:var(--sand);position:sticky;right:0}
+  #scoreGridFull th.tot{position:sticky;right:0;background:var(--sand)}
+  #scoreGridFull input{width:56px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:5px 4px;border-radius:8px}
   .ptbadge{min-width:44px;text-align:right;font-family:'DejaVu Sans Mono',monospace;font-weight:700;color:var(--wolf)}
   .medalmini{margin-left:4px}
   .info{background:var(--sand);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-soft);margin-bottom:12px}
@@ -265,12 +279,16 @@
       </div>
 
       <div class="card">
-        <h2>✏️ Saisie des places</h2>
-        <div class="row"><select id="epSelect"></select></div>
-        <div class="info">Saisis la <b>place d'arrivée</b> (1 = premier). Laisse vide si le joueur
-          n'a pas fait l'épreuve (0 pt). Les points sont calculés automatiquement :
-          <b>dernier = 1 pt, +1 par place</b>, avec bonus podium <b>+4 / +2 / +1</b>.</div>
+        <h2>✏️ Saisie des scores</h2>
+        <div class="info">Saisis directement les <b>points bruts</b> de chaque joueur, épreuve par épreuve.
+          Laisse la case <b>vide</b> si le joueur n'a pas fait l'épreuve (0 pt). Le classement se met à
+          jour en direct. Utilise le sélecteur pour changer d'épreuve, ou la vue tableau pour tout voir.</div>
+        <div class="row" style="justify-content:space-between;flex-wrap:wrap">
+          <select id="epSelect" style="flex:1 1 200px"></select>
+          <button class="btn ghost sm" id="toggleGrid">Vue tableau complet</button>
+        </div>
         <div id="scoreGrid"></div>
+        <div id="scoreGridFull" class="hide"></div>
       </div>
 
       <div class="card" style="text-align:center">
@@ -283,36 +301,39 @@
   <section id="viewRegles" class="hide">
     <div class="card">
       <h2>🎯 Les épreuves</h2>
-      <p class="muted" style="margin-bottom:10px">15 épreuves solo, chacun pour soi. On joue chaque épreuve à son tour et on note le classement.</p>
+      <p class="muted" style="margin-bottom:10px">10 épreuves solo, chacun pour soi. On joue chaque épreuve à son tour et on note les points.</p>
       <ol class="reg-list" id="reglesEpreuves"></ol>
     </div>
 
     <div class="card">
       <h2>🏅 Le barème</h2>
-      <p class="reg-p">Dans chaque épreuve, les points dépendent de ta <b>place d'arrivée</b> et s'adaptent au nombre de joueurs (N) :</p>
+      <p class="reg-p">Dans chaque épreuve, tu marques des <b>points bruts</b> selon ta performance. Chaque épreuve a son propre maximum&nbsp;:</p>
       <ul class="reg-bul">
-        <li>Le <b>dernier marque 1 point</b>, et on gagne <b>+1 point par place</b> au-dessus.</li>
-        <li>Bonus podium&nbsp;: <b>+4</b> pour le 1ᵉʳ, <b>+2</b> pour le 2ᵉ, <b>+1</b> pour le 3ᵉ.</li>
-        <li>Tu ne fais pas une épreuve&nbsp;? <b>0 point</b> sur celle-ci.</li>
+        <li>Chamboule-tout&nbsp;: 1 pt par boîte tombée (max <b>10</b>).</li>
+        <li>Pétanque précision&nbsp;: zones à 1, 3 ou 5 pts, 3 boules (max <b>15</b>).</li>
+        <li>Lancer d'anneaux&nbsp;: 1 pt par anneau (max <b>4</b>).</li>
+        <li>Cornhole&nbsp;: 1 pt par sac (max <b>4</b>).</li>
+        <li>Jeu du sabot&nbsp;: 1 pt par palet (max <b>5</b>).</li>
+        <li>Tir aux verres&nbsp;: verres à 1/2/3/5, 3 balles (max <b>15</b>).</li>
+        <li>Mölkky&nbsp;: 1 pt par quille, strike = <b>12</b>.</li>
+        <li>Fer à cheval&nbsp;: 5 pts autour, 3 pts dans la zone, 3 fers (max <b>15</b>).</li>
+        <li>Lancer de palet&nbsp;: selon le barème de la cible.</li>
+        <li>Parcours d'agilité&nbsp;: &lt;10s = 5, &lt;20s = 3, &lt;30s = 1 pt.</li>
       </ul>
-      <div class="reg-ex">
-        <div class="reg-ex-t">Exemple sur 20 joueurs</div>
-        1ᵉʳ = 24 pts · 2ᵉ = 21 · 3ᵉ = 19 · 4ᵉ = 17 · 5ᵉ = 16 … dernier = 1 pt
-      </div>
-      <p class="reg-p">Le classement général additionne les points de toutes les épreuves.</p>
+      <p class="reg-p">Le classement général <b>additionne les points bruts</b> de toutes les épreuves, au fur et à mesure de la journée. Tu ne fais pas une épreuve&nbsp;? <b>0 point</b> dessus.</p>
     </div>
 
     <div class="card">
       <h2>⚖️ Les égalités</h2>
-      <p class="reg-p"><b>Dans une épreuve&nbsp;:</b> en cas d'ex æquo, on tranche par un petit duel sur un mini-jeu.</p>
-      <p class="reg-p"><b>Au classement général&nbsp;:</b> à points égaux, on départage sur le nombre de 1ʳᵉˢ places, puis de 2ᵉˢ, et ainsi de suite.</p>
+      <p class="reg-p"><b>Au podium final&nbsp;:</b> si deux joueurs (ou plus) finissent à égalité pour une place du podium, on met toutes les épreuves dans un chapeau et une <b>main innocente</b> en tire une au sort.</p>
+      <p class="reg-p">Les joueurs à égalité <b>rejouent cette épreuve</b> : le meilleur score l'emporte. Ça évite les calculs et ça fait un beau final&nbsp;!</p>
     </div>
 
     <div class="card">
       <h2>🔥 Le déroulement</h2>
       <ul class="reg-bul">
         <li>Les épreuves s'enchaînent <b>tout au long de la journée</b>, au rythme du méchoui.</li>
-        <li>Un <b>arbitre</b> veille au bon déroulement et note les places — et surtout, il ne fait pas partie de la même branche de la famille que les joueurs qu'il départage, histoire de garder tout ça bien impartial&nbsp;! 😉</li>
+        <li>Un <b>arbitre</b> veille au bon déroulement et note les points — et surtout, il ne fait pas partie de la même branche de la famille que les joueurs qu'il départage, histoire de garder tout ça bien impartial&nbsp;! 😉</li>
         <li>Le classement se met à jour <b>en direct</b> — suis ta progression sur ton téléphone&nbsp;!</li>
         <li>Le podium final récompense les trois meilleurs cumuls de la journée.</li>
       </ul>
@@ -365,38 +386,27 @@ function epEmoji(nom){
   if(n.includes("anneau")) return "⭕";
   if(n.includes("cornhole")||n.includes("sac")) return "🌽";
   if(n.includes("sabot")) return "🥾";
-  if(n.includes("beer")||n.includes("pong")) return "🍺";
-  if(n.includes("quiz")) return "❓";
-  if(n.includes("estimation")||n.includes("mystère")||n.includes("mystere")) return "🔮";
+  if(n.includes("verre")||n.includes("beer")||n.includes("pong")) return "🥤";
+  if(n.includes("fer")||n.includes("cheval")) return "🧲";
   if(n.includes("mölkky")||n.includes("molkky")) return "🎳";
-  if(n.includes("fléchette")||n.includes("flechette")) return "🎯";
   if(n.includes("palet")) return "🥏";
   if(n.includes("agilité")||n.includes("agilite")||n.includes("parcours")) return "🏃";
-  if(n.includes("réflexion")||n.includes("reflexion")||n.includes("énigme")||n.includes("enigme")) return "🧩";
-  if(n.includes("memory")||n.includes("mémoire")||n.includes("memoire")) return "🃏";
-  if(n.includes("casse")||n.includes("rubik")||n.includes("puzzle")) return "🧠";
   return "🏅";
 }
-function placeOf(pid,eid){const r=places.find(x=>x.participant_id===pid&&x.epreuve_id===eid);return r&&r.place?r.place:null;}
+/* points bruts saisis pour un joueur à une épreuve (null si non saisi) */
+function scoreOf(pid,eid){const r=places.find(x=>x.participant_id===pid&&x.epreuve_id===eid);return r&&r.place!=null?r.place:null;}
 
 /* ===== BARÈME =====
-   Pour une épreuve : N = nb de joueurs classés (place non vide).
-   base = N - place + 1  (dernier=1, +1 par place)
-   bonus podium : 1er +4, 2e +2, 3e +1.
-   Non classé (place vide) => 0.
+   On saisit directement les POINTS BRUTS de chaque manche.
+   Le classement général = somme des points bruts de toutes les épreuves.
+   Non saisi => 0 pour cette épreuve.
 */
 function pointsForEpreuve(eid){
-  const classed = places.filter(x=>x.epreuve_id===eid && x.place);
-  const N = classed.length;
   const map = {};
-  classed.forEach(x=>{
-    let pts = N - x.place + 1;
-    if(x.place===1) pts += 4;
-    else if(x.place===2) pts += 2;
-    else if(x.place===3) pts += 1;
-    map[x.participant_id] = pts;
+  places.filter(x=>x.epreuve_id===eid && x.place!=null).forEach(x=>{
+    map[x.participant_id] = x.place;
   });
-  return map; // participant_id -> points
+  return map; // participant_id -> points bruts
 }
 function allPoints(){
   const total={}; const perEp={};
@@ -408,22 +418,17 @@ function allPoints(){
   return {total, perEp};
 }
 
-/* ===== classement avec cascade (nb de 1res places, puis 2es...) ===== */
+/* ===== classement : total décroissant ===== */
+/* En cas d'égalité, on départage à la main le jour J (tirage au sort
+   d'une épreuve rejouée). Ici, tri stable secondaire par nom. */
 function ranking(){
   const {total,perEp}=allPoints();
   const rows=participants.map(p=>{
-    const perEpPts=epreuves.map(e=>perEp[e.id][p.id]||0);
-    // compte des places pour départage
-    const placeCounts={};
-    epreuves.forEach(e=>{const pl=placeOf(p.id,e.id); if(pl) placeCounts[pl]=(placeCounts[pl]||0)+1;});
-    return {p, perEpPts, total:total[p.id]||0, placeCounts};
+    const perEpPts=epreuves.map(e=>perEp[e.id][p.id]);
+    return {p, perEpPts, total:total[p.id]||0};
   });
   rows.sort((a,b)=>{
     if(b.total!==a.total) return b.total-a.total;
-    for(let k=1;k<=10;k++){
-      const av=a.placeCounts[k]||0, bv=b.placeCounts[k]||0;
-      if(bv!==av) return bv-av;
-    }
     return a.p.nom.localeCompare(b.p.nom);
   });
   return rows;
@@ -479,7 +484,7 @@ function renderRank(){
     const rankNum = r.indexOf(row)+1;
     const tr=el("tr");
     tr.innerHTML=`<td class="rank stick stick-rank">${rankNum}</td><td class="stick stick-name">${esc(row.p.nom)}</td>`+
-      row.perEpPts.map(v=>`<td class="pt">${v||"·"}</td>`).join("")+
+      row.perEpPts.map(v=>`<td class="pt">${v==null?"·":v}</td>`).join("")+
       `<td class="total">${row.total}</td>`;
     tb.appendChild(tr);
   });
@@ -522,26 +527,76 @@ function renderAdmin(){
   sel.innerHTML=epreuves.map(e=>`<option value="${e.id}">${esc(e.nom)}</option>`).join("");
   if(cur)sel.value=cur;
   renderScoreGrid();
+  renderScoreGridFull();
 }
+/* score max indicatif par épreuve (d'après son nom) */
+function maxForEp(nom){
+  const n=(nom||"").toLowerCase();
+  if(n.includes("chamboule")) return 10;
+  if(n.includes("pétanque")||n.includes("petanque")) return 15;
+  if(n.includes("anneau")) return 4;
+  if(n.includes("cornhole")) return 4;
+  if(n.includes("sabot")) return 5;
+  if(n.includes("verre")) return 15;
+  if(n.includes("mölkky")||n.includes("molkky")) return 12;
+  if(n.includes("fer")||n.includes("cheval")) return 15;
+  if(n.includes("agilité")||n.includes("agilite")||n.includes("parcours")) return 5;
+  return null; // lancer de palet : selon barème cible
+}
+/* grille "une épreuve à la fois" */
 function renderScoreGrid(){
   const eid=parseInt($("#epSelect").value); const g=$("#scoreGrid"); g.innerHTML="";
   if(!eid||!participants.length){g.innerHTML='<p class="muted">Ajoute une épreuve et des participants.</p>';return;}
-  const m=pointsForEpreuve(eid);
+  const ep=epreuves.find(e=>e.id===eid); const mx=ep?maxForEp(ep.nom):null;
+  if(mx!=null){
+    const info=el("div","muted"); info.style.marginBottom="8px";
+    info.innerHTML=`Score max de l'épreuve : <b>${mx} points</b>`;
+    g.appendChild(info);
+  }
   participants.forEach(p=>{
     const d=el("div","grid-row");
     const left=el("span"); left.textContent=p.nom;
     const wrap=el("div"); wrap.style.display="flex";wrap.style.alignItems="center";wrap.style.gap="8px";
-    const inp=el("input","place-in"); inp.type="number";inp.min="1";inp.placeholder="place";
-    const pv=placeOf(p.id,eid); if(pv)inp.value=pv;
-    const badge=el("span","ptbadge"); const pts=m[p.id];
-    badge.innerHTML = pts!==undefined ? (pts+" pt"+(pv<=3?`<span class="medalmini">${["🥇","🥈","🥉"][pv-1]}</span>`:"")) : "—";
+    const inp=el("input","score-in"); inp.type="number";inp.min="0";inp.placeholder="pts";inp.inputMode="numeric";
+    const sv=scoreOf(p.id,eid); if(sv!=null)inp.value=sv;
     inp.onchange=()=>{
-      let v=parseInt(inp.value); if(isNaN(v)||v<1){v=null;inp.value="";}
-      savePlace(p.id,eid,v);
+      let v=parseInt(inp.value); if(isNaN(v)||v<0){v=null;inp.value="";}
+      saveScore(p.id,eid,v);
     };
-    wrap.append(inp,badge);
+    wrap.append(inp,el("span","maxhint")).lastChild.textContent="pts";
     d.append(left,wrap); g.appendChild(d);
   });
+}
+/* grille "tableau complet" type Excel : joueurs × épreuves */
+function renderScoreGridFull(){
+  const g=$("#scoreGridFull"); g.innerHTML="";
+  if(!participants.length||!epreuves.length){g.innerHTML='<p class="muted">Ajoute des participants et des épreuves.</p>';return;}
+  const {total}=allPoints();
+  const wrap=el("div","scroll-x");
+  const t=el("table");
+  const thead=el("thead"), htr=el("tr");
+  htr.innerHTML=`<th class="stick">Participant</th>`+
+    epreuves.map(e=>`<th><span class="emo">${epEmoji(e.nom)}</span>${esc(e.nom)}</th>`).join("")+
+    `<th class="tot">Total</th>`;
+  thead.appendChild(htr); t.appendChild(thead);
+  const tb=el("tbody");
+  participants.forEach(p=>{
+    const tr=el("tr");
+    const nameTd=el("td","stick"); nameTd.textContent=p.nom; tr.appendChild(nameTd);
+    epreuves.forEach(e=>{
+      const td=el("td");
+      const inp=el("input"); inp.type="number";inp.min="0";inp.placeholder="·";inp.inputMode="numeric";
+      const sv=scoreOf(p.id,e.id); if(sv!=null)inp.value=sv;
+      inp.onchange=()=>{
+        let v=parseInt(inp.value); if(isNaN(v)||v<0){v=null;inp.value="";}
+        saveScore(p.id,e.id,v);
+      };
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    const tot=el("td","tot"); tot.textContent=total[p.id]||0; tr.appendChild(tot);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb); wrap.appendChild(t); g.appendChild(wrap);
 }
 
 /* ===== data ===== */
@@ -578,12 +633,13 @@ async function delEp(id){
   if(!CONFIGURED){epreuves=epreuves.filter(e=>e.id!==id);places=places.filter(s=>s.epreuve_id!==id);renderAll();return;}
   await sb.from("epreuves").delete().eq("id",id); loadAll();
 }
-async function savePlace(pid,eid,place){
+async function saveScore(pid,eid,pts){
   const ex=places.find(s=>s.participant_id===pid&&s.epreuve_id===eid);
-  if(ex)ex.place=place; else places.push({participant_id:pid,epreuve_id:eid,place});
-  renderPodium();renderRank();renderScoreGrid();
+  if(ex)ex.place=pts; else places.push({participant_id:pid,epreuve_id:eid,place:pts});
+  renderPodium();renderRank();
+  if(isAdmin){renderScoreGrid();renderScoreGridFull();renderAdmin();}
   if(!CONFIGURED)return;
-  await sb.from("places").upsert({participant_id:pid,epreuve_id:eid,place,updated_at:new Date().toISOString()},
+  await sb.from("places").upsert({participant_id:pid,epreuve_id:eid,place:pts,updated_at:new Date().toISOString()},
     {onConflict:"participant_id,epreuve_id"});
 }
 
@@ -626,21 +682,31 @@ function fillRegles(){
 $("#addPart").onclick=addPart;$("#newPart").addEventListener("keydown",e=>{if(e.key==="Enter")addPart();});
 $("#addEp").onclick=addEp;$("#newEp").addEventListener("keydown",e=>{if(e.key==="Enter")addEp();});
 $("#epSelect").onchange=renderScoreGrid;
+$("#toggleGrid").onclick=()=>{
+  const g=$("#scoreGrid"), f=$("#scoreGridFull"), sel=$("#epSelect"), btn=$("#toggleGrid");
+  const showFull=f.classList.contains("hide");
+  f.classList.toggle("hide",!showFull);
+  g.classList.toggle("hide",showFull);
+  sel.classList.toggle("hide",showFull);
+  btn.textContent=showFull?"Vue épreuve par épreuve":"Vue tableau complet";
+  if(showFull)renderScoreGridFull();
+};
 $("#loginBtn").onclick=login;$("#adminPass").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
 $("#logoutBtn").onclick=logout;
 
 /* ===== demo ===== */
 function demoData(){
   $("#foot").innerHTML="⚠️ Mode démo — configure SUPABASE_URL et SUPABASE_ANON pour le live. (code admin démo : <b>demo</b>)";
-  epreuves=[{id:1,nom:"Chamboule-tout",ordre:1},{id:2,nom:"Pétanque",ordre:2},{id:3,nom:"Mölkky",ordre:3}];
+  epreuves=[{id:1,nom:"Chamboule-tout",ordre:1},{id:2,nom:"Pétanque – précision",ordre:2},{id:3,nom:"Mölkky",ordre:3}];
   participants=[{id:1,nom:"Francis"},{id:2,nom:"Marie-Christine"},{id:3,nom:"Hugo"},{id:4,nom:"Janine"},{id:5,nom:"Cléo"}];
+  // place = points bruts saisis
   places=[
-    {participant_id:1,epreuve_id:1,place:2},{participant_id:2,epreuve_id:1,place:1},
-    {participant_id:3,epreuve_id:1,place:3},{participant_id:4,epreuve_id:1,place:4},
-    {participant_id:5,epreuve_id:1,place:5},
-    {participant_id:1,epreuve_id:2,place:1},{participant_id:3,epreuve_id:2,place:2},
-    {participant_id:5,epreuve_id:2,place:3},
-    {participant_id:2,epreuve_id:3,place:1},{participant_id:5,epreuve_id:3,place:2}
+    {participant_id:1,epreuve_id:1,place:7},{participant_id:2,epreuve_id:1,place:10},
+    {participant_id:3,epreuve_id:1,place:5},{participant_id:4,epreuve_id:1,place:3},
+    {participant_id:5,epreuve_id:1,place:8},
+    {participant_id:1,epreuve_id:2,place:11},{participant_id:3,epreuve_id:2,place:9},
+    {participant_id:5,epreuve_id:2,place:15},
+    {participant_id:2,epreuve_id:3,place:12},{participant_id:5,epreuve_id:3,place:6}
   ];
   renderAll();
 }
