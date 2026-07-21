@@ -82,6 +82,10 @@
   td.rank{font-weight:800;width:34px;color:var(--wolf)}
   td.total{font-weight:800;text-align:right;font-family:'DejaVu Sans Mono',monospace}
   td.pt{text-align:center;font-family:'DejaVu Sans Mono',monospace;color:var(--ink-soft)}
+  /* colonnes rang + participant figées lors du scroll horizontal */
+  th.stick,td.stick{position:sticky;background:rgba(245,240,228,.98);z-index:2}
+  th.stick-rank,td.stick-rank{left:0}
+  th.stick-name,td.stick-name{left:34px;box-shadow:2px 0 5px -2px rgba(40,30,15,.18)}
   tr.top1 td.rank{color:var(--gold)}
   tr.top2 td.rank{color:var(--silver)}
   tr.top3 td.rank{color:var(--bronze)}
@@ -137,6 +141,7 @@
     th{font-size:15px}
     th,td{padding:16px 14px}
     td.rank{width:60px;font-size:30px}
+    th.stick-name,td.stick-name{left:60px}
     .foot{font-size:16px}
   }
   @media (min-width:1600px){
@@ -153,7 +158,7 @@
 <div id="bgveil"></div>
 <div class="wrap">
   <header class="top">
-    <img src="photos/logo-mechoui.png" alt="Le Méchoui Des Réveillère" class="logo">
+    <img src="logo-mechoui.png" alt="Le Méchoui Des Réveillère" class="logo">
     <h1>Les Jeux <span class="wolf">Jeannettiques</span></h1>
     <div class="eyebrow" style="margin-top:10px;margin-bottom:0">Édition 2026 · Le grand tournoi du méchoui familial</div>
     <div class="sub">Classement en direct — chacun pour soi</div>
@@ -246,7 +251,7 @@ if(CONFIGURED) sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
   for(let i=1;i<=N;i++){
     const d=document.createElement("div");
     d.className="slide";
-    d.style.backgroundImage=`url('photos/mechoui${String(i).padStart(2,'0')}.jpg')`;
+    d.style.backgroundImage=`url('mechoui${String(i).padStart(2,'0')}.jpg')`;
     box.appendChild(d); slides.push(d);
   }
   if(!slides.length)return;
@@ -346,7 +351,7 @@ function renderRank(){
   const t=$("#rankTable"), thead=t.querySelector("thead"), tb=t.querySelector("tbody");
   const r=ranking();
   const htr=el("tr");
-  htr.innerHTML=`<th></th><th>Participant</th>`+
+  htr.innerHTML=`<th class="stick stick-rank"></th><th class="stick stick-name">Participant</th>`+
     epreuves.map(e=>`<th style="text-align:center">${esc(short(e.nom))}</th>`).join("")+
     `<th style="text-align:right">Total</th>`;
   thead.innerHTML=""; thead.appendChild(htr);
@@ -361,7 +366,7 @@ function renderRank(){
   shown.forEach((row)=>{
     const rankNum = r.indexOf(row)+1;
     const tr=el("tr");
-    tr.innerHTML=`<td class="rank">${rankNum}</td><td>${esc(row.p.nom)}</td>`+
+    tr.innerHTML=`<td class="rank stick stick-rank">${rankNum}</td><td class="stick stick-name">${esc(row.p.nom)}</td>`+
       row.perEpPts.map(v=>`<td class="pt">${v||"·"}</td>`).join("")+
       `<td class="total">${row.total}</td>`;
     tb.appendChild(tr);
