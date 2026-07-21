@@ -433,7 +433,7 @@ function renderPodium(){
   const labelBox=$("#podiumLabels"); if(labelBox)labelBox.innerHTML="";
   const r=ranking().filter(x=>x.total>0);
   if(!r.length){box.innerHTML='<p class="muted" style="padding:20px 0">En attente des premiers résultats…</p>';return;}
-  const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["2ᵉ","1ᵉʳ","3ᵉ"];
+  const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["1ᵉʳ","2ᵉ","3ᵉ"];
   order.forEach(idx=>{
     if(!r[idx])return;
     const d=el("div","step "+cls[idx]);
