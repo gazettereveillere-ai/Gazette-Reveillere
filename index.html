@@ -49,8 +49,8 @@
   .podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:10px 0 4px}
   .step{flex:1;max-width:150px;text-align:center;border-radius:12px 12px 0 0;
     padding:12px 6px 10px;color:#fff;position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1)}
-  .step .nm{font-weight:700;font-size:15px;line-height:1.1;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis}
-  .step .pts{font-family:'DejaVu Sans Mono',monospace;font-size:13px;opacity:.9}
+  .step .nm{font-weight:700;font-size:15px;line-height:1.1;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 3px rgba(0,0,0,.55),0 0 1px rgba(0,0,0,.4)}
+  .step .pts{font-family:'DejaVu Sans Mono',monospace;font-size:13px;opacity:.95;text-shadow:0 1px 2px rgba(0,0,0,.5)}
   .step .medal{font-size:26px;margin-bottom:4px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
   .s1{height:156px;background:linear-gradient(180deg,#f2d873,var(--gold))}
   .s2{height:120px;background:linear-gradient(180deg,#c8cdd3,var(--silver))}
@@ -69,9 +69,11 @@
   .step.s2 .pod-drop{animation-delay:.35s}
   .step.s3 .pod-drop{animation-delay:.55s}
   @keyframes drop{0%{opacity:0;transform:translateY(-40px)}60%{opacity:1;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
-  .step .rk{position:absolute;top:6px;left:50%;transform:translateX(-50%);
-    font-family:'DejaVu Sans Mono',monospace;font-size:11px;font-weight:700;
-    color:rgba(255,255,255,.75);letter-spacing:.05em}
+  .step .rk{display:none}
+  .podium-labels{display:flex;justify-content:center;gap:10px;margin-bottom:14px}
+  .plabel{flex:1;max-width:150px;text-align:center;font-family:'Anton',Impact,sans-serif;
+    font-size:30px;line-height:1;letter-spacing:.5px}
+  .s1-lab{color:var(--gold)}.s2-lab{color:var(--silver)}.s3-lab{color:var(--bronze)}
   .podium-base{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
     border-radius:0 0 8px 8px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
   @media(prefers-reduced-motion:reduce){.pod-drop,.pod-drop.play{animation:none;opacity:1;transform:none}.step::after{animation:none}}
@@ -90,6 +92,12 @@
   tr.top2 td.rank{color:var(--silver)}
   tr.top3 td.rank{color:var(--bronze)}
   .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .scroll-wrap{position:relative}
+  .scroll-hint{text-align:right;font-family:'Oswald',sans-serif;font-size:13px;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--ember);
+    margin-top:8px;animation:hintpulse 1.8s ease-in-out infinite}
+  @keyframes hintpulse{0%,100%{opacity:.5;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+  .scroll-hint.gone{display:none}
   input,select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
   input:focus,select:focus{outline:2px solid var(--wolf);outline-offset:1px}
   .btn{font:inherit;font-size:14px;padding:9px 15px;border-radius:10px;border:1px solid var(--wolf);
@@ -133,7 +141,7 @@
     .step .medal{font-size:52px}
     .step .nm{font-size:30px}
     .step .pts{font-size:24px}
-    .step .rk{font-size:18px;top:12px}
+    .plabel{font-size:56px}
     .s1{height:280px}.s2{height:210px}.s3{height:168px}
     .podium-base{height:18px}
     /* tableau lisible de loin */
@@ -175,10 +183,14 @@
       <h2><span class="live-dot"></span>Podium</h2>
       <div class="podium" id="podium"></div>
       <div class="podium-base"></div>
+      <div class="podium-labels" id="podiumLabels"></div>
     </div>
     <div class="card">
       <h2>Classement général</h2>
-      <div class="scroll-x"><table id="rankTable"><thead></thead><tbody></tbody></table></div>
+      <div class="scroll-wrap">
+        <div class="scroll-x" id="rankScroll"><table id="rankTable"><thead></thead><tbody></tbody></table></div>
+        <div class="scroll-hint" id="scrollHint">glisse pour voir les épreuves →</div>
+      </div>
       <p class="muted" id="emptyPublic" style="margin-top:8px"></p>
     </div>
   </section>
@@ -325,19 +337,25 @@ function ranking(){
 /* ===== rendu podium ===== */
 function renderPodium(){
   const box=$("#podium"); box.innerHTML="";
+  const labelBox=$("#podiumLabels"); if(labelBox)labelBox.innerHTML="";
   const r=ranking().filter(x=>x.total>0);
   if(!r.length){box.innerHTML='<p class="muted" style="padding:20px 0">En attente des premiers résultats…</p>';return;}
-  const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["2e","1er","3e"];
+  const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["2ᵉ","1ᵉʳ","3ᵉ"];
   order.forEach(idx=>{
     if(!r[idx])return;
     const d=el("div","step "+cls[idx]);
-    d.innerHTML=`<span class="rk">${rk[idx]}</span>
-      <span class="pod-drop">
+    d.innerHTML=`<span class="pod-drop">
         <span class="medal">${medals[idx]}</span>
         <span class="nm">${esc(r[idx].p.nom)}</span>
         <span class="pts">${r[idx].total} pts</span>
       </span>`;
     box.appendChild(d);
+    // grosse étiquette de place sous la marche
+    if(labelBox){
+      const lab=el("div","plabel "+cls[idx]+"-lab");
+      lab.textContent=rk[idx];
+      labelBox.appendChild(lab);
+    }
   });
   // déclenche l'animation de chute (double rAF + fallback)
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -371,6 +389,18 @@ function renderRank(){
       `<td class="total">${row.total}</td>`;
     tb.appendChild(tr);
   });
+  updateScrollHint();
+}
+function updateScrollHint(){
+  const sc=$("#rankScroll"), hint=$("#scrollHint");
+  if(!sc||!hint)return;
+  const check=()=>{
+    const overflow = sc.scrollWidth - sc.clientWidth > 8;
+    const atEnd = sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 8;
+    hint.classList.toggle("gone", !overflow || atEnd);
+  };
+  sc.onscroll=check;
+  setTimeout(check,60);
 }
 
 /* ===== rendu admin ===== */
