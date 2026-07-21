@@ -28,7 +28,7 @@
   @media (min-width:1400px){#bgshow{grid-template-columns:repeat(5,1fr)}}
   /* voile clair par-dessus pour la lisibilité */
   #bgveil{position:fixed;inset:0;z-index:-1;
-    background:linear-gradient(180deg, rgba(233,226,208,.62), rgba(233,226,208,.72))}
+    background:linear-gradient(180deg, rgba(233,226,208,.42), rgba(233,226,208,.52))}
   .wrap{max-width:840px;margin:0 auto;padding:22px 16px 90px}
   .logo{width:min(260px,62vw);height:auto;display:block;margin:0 auto 6px;
     filter:drop-shadow(0 3px 8px rgba(40,30,15,.18))}
@@ -289,6 +289,10 @@
         </div>
         <div id="scoreGrid"></div>
         <div id="scoreGridFull" class="hide"></div>
+        <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:14px">
+          <button class="btn danger sm" id="resetScores">🗑️ Remise à 0 des scores</button>
+          <p class="muted" style="margin-top:6px">Efface tous les résultats saisis. Les joueurs et les épreuves sont conservés.</p>
+        </div>
       </div>
 
       <div class="card" style="text-align:center">
@@ -643,6 +647,23 @@ async function saveScore(pid,eid,pts){
     {onConflict:"participant_id,epreuve_id"});
 }
 
+/* ===== remise à zéro des scores ===== */
+/* Efface uniquement les résultats (table places). Les participants
+   et les épreuves sont conservés. Confirmation en tapant EFFACER. */
+async function resetScores(){
+  if(!places.length){alert("Aucun score à effacer.");return;}
+  const code=prompt("⚠️ Cette action efface TOUS les scores (joueurs et épreuves conservés).\n\nTape EFFACER en majuscules pour confirmer :");
+  if(code==null)return;
+  if(code.trim()!=="EFFACER"){alert("Confirmation incorrecte. Rien n'a été effacé.");return;}
+  if(!CONFIGURED){places=[];renderAll();return;}
+  const ids=[...new Set(participants.map(p=>p.id))];
+  if(ids.length){
+    await sb.from("places").delete().in("participant_id",ids);
+  }
+  places=[];
+  loadAll();
+}
+
 /* ===== realtime ===== */
 function subscribe(){
   if(!CONFIGURED)return;
@@ -693,6 +714,7 @@ $("#toggleGrid").onclick=()=>{
 };
 $("#loginBtn").onclick=login;$("#adminPass").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
 $("#logoutBtn").onclick=logout;
+$("#resetScores").onclick=resetScores;
 
 /* ===== demo ===== */
 function demoData(){
