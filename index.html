@@ -37,11 +37,13 @@
   h1 .wolf{
     background:linear-gradient(180deg,#e8c65a 0%,var(--gold) 45%,#a9822c 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    color:var(--gold)}
-  h1{position:relative}
+    color:var(--gold);filter:drop-shadow(0 2px 1px rgba(90,60,10,.35))}
+  h1{position:relative;color:var(--ink)}
   h1::after{content:"";display:block;width:70px;height:4px;margin:16px auto 0;
     background:linear-gradient(90deg,transparent,var(--ember),transparent);border-radius:2px}
-  header.top{text-align:center;padding:18px 0 8px}
+  header.top{text-align:center;padding:24px 22px 22px;
+    background:rgba(245,240,228,.90);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);backdrop-filter:blur(3px);margin-top:6px}
   .eyebrow{font-family:'Oswald',sans-serif;letter-spacing:.28em;font-weight:500;
     text-transform:uppercase;font-size:12px;color:var(--ember);margin-bottom:6px}
   h1{font-family:'Anton',Impact,sans-serif;font-size:clamp(46px,11vw,72px);line-height:.9;
