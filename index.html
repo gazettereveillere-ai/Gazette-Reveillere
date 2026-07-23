@@ -28,8 +28,6 @@
   #bgveil{position:fixed;inset:0;z-index:-1;
     background:linear-gradient(180deg, rgba(233,226,208,.42), rgba(233,226,208,.52))}
   .wrap{max-width:840px;margin:0 auto;padding:22px 16px 90px}
-  .logo{width:min(260px,62vw);height:auto;display:block;margin:0 auto 6px;
-    filter:drop-shadow(0 3px 8px rgba(40,30,15,.18))}
   .title-orn{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.35em;
     font-size:13px;color:var(--ember);text-transform:uppercase;margin-bottom:10px}
   h1 .wolf{
@@ -52,7 +50,6 @@
   .tab{border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
     padding:9px 16px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;transition:.15s}
   .tab.active{background:var(--wolf);color:#fff;border-color:var(--wolf);box-shadow:var(--shadow)}
-  /* barre d'onglets du bas : accès saisie, discret */
   .tabs-bottom{display:flex;gap:8px;justify-content:center;margin:28px 0 0}
   .tabs-bottom .tab{font-size:13px;padding:7px 14px;opacity:.75}
   .tabs-bottom .tab.active{opacity:1}
@@ -62,7 +59,6 @@
     letter-spacing:.03em;font-size:20px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:10px auto 4px;max-width:480px}
   .podcol{flex:1 1 0;max-width:150px;display:flex;flex-direction:column;align-items:stretch}
-  .podium-base{max-width:480px;margin-left:auto;margin-right:auto}
   .step{width:100%;text-align:center;border-radius:12px 12px 0 0;
     padding:12px 6px 10px;color:var(--ink);position:relative;transition:height .5s cubic-bezier(.2,.8,.2,1);
     display:flex;flex-direction:column;justify-content:flex-end}
@@ -87,7 +83,6 @@
   .step.s2 .pod-drop{animation-delay:.35s}
   .step.s3 .pod-drop{animation-delay:.55s}
   @keyframes drop{0%{opacity:0;transform:translateY(-40px)}60%{opacity:1;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
-  .step .rk{display:none}
   .podseg{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
     margin:0 -5px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
   .podcol:first-child .podseg{border-radius:0 0 0 8px;margin-left:0}
@@ -95,8 +90,6 @@
   .plabel{width:100%;text-align:center;font-family:'Anton',Impact,sans-serif;
     font-size:30px;line-height:1;letter-spacing:.5px;margin-top:14px;margin-bottom:6px}
   .s1-lab{color:var(--gold)}.s2-lab{color:var(--silver)}.s3-lab{color:var(--bronze)}
-  .podium-base{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
-    border-radius:0 0 8px 8px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
   @media(prefers-reduced-motion:reduce){.pod-drop,.pod-drop.play{animation:none;opacity:1;transform:none}.step::after{animation:none}}
   table{width:100%;border-collapse:collapse;font-size:14px}
   th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line)}
@@ -112,12 +105,10 @@
   tr.top1 td.rank{color:var(--gold)}
   tr.top2 td.rank{color:var(--silver)}
   tr.top3 td.rank{color:var(--bronze)}
-  /* flèches de mouvement : seules touches de couleur */
   .mv{display:inline-block;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;
     margin-left:4px;letter-spacing:0;vertical-align:1px}
   .mv.up{color:var(--green)}
   .mv.down{color:var(--ember)}
-  /* flash neutre : gris chaud très discret, la couleur reste aux flèches */
   @keyframes rowflash{
     0%{background:rgba(91,79,63,.16)}
     100%{background:transparent}
@@ -147,10 +138,12 @@
   .btn:hover{filter:brightness(1.08)}
   .btn.ghost{background:transparent;color:var(--wolf)}
   .btn.danger{background:var(--ember);border-color:var(--ember)}
+  .btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink)}
   .btn.sm{padding:6px 10px;font-size:13px}
   .row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
   .grid-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
     padding:8px 0;border-bottom:1px solid var(--line)}
+  .grid-row .acts{display:flex;gap:6px}
   .muted{color:var(--ink-soft);font-size:13px}
   .pill{display:inline-block;background:var(--sand);border:1px solid var(--line);
     border-radius:999px;padding:2px 10px;font-size:12px;font-family:'DejaVu Sans Mono',monospace}
@@ -160,7 +153,6 @@
   .foot{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:26px;font-style:italic}
   .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;animation:pulse 1.6s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-  .place-in{width:70px;text-align:center;font-family:'DejaVu Sans Mono',monospace}
   .score-in{width:64px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:7px 6px}
   .maxhint{font-size:12px;color:var(--ink-soft);margin-left:6px}
   #scoreGridFull table{font-size:13px}
@@ -174,8 +166,6 @@
     background:var(--sand);position:sticky;right:0}
   #scoreGridFull th.tot{position:sticky;right:0;background:var(--sand)}
   #scoreGridFull input{width:56px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:5px 4px;border-radius:8px}
-  .ptbadge{min-width:44px;text-align:right;font-family:'DejaVu Sans Mono',monospace;font-weight:700;color:var(--wolf)}
-  .medalmini{margin-left:4px}
   .info{background:var(--sand);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-soft);margin-bottom:12px}
   .errbar{background:var(--ember);color:#fff;border-radius:10px;padding:10px 12px;
     font-size:13px;margin-bottom:12px;line-height:1.4}
@@ -186,17 +176,81 @@
   .reg-p{font-size:15px;line-height:1.5;margin-bottom:10px}
   .reg-bul{margin:0 0 4px 20px;padding:0}
   .reg-bul li{padding:5px 0;font-size:15px;line-height:1.45}
-  .reg-ex{background:var(--sand);border:1px solid var(--line);border-radius:10px;
-    padding:12px 14px;margin:12px 0;font-family:'DejaVu Sans Mono',monospace;
-    font-size:13px;line-height:1.6;color:var(--ink)}
-  .reg-ex-t{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;
-    font-size:12px;color:var(--ember);margin-bottom:4px}
   @media (max-width:560px){.step .nm{font-size:13px}}
+
+  /* ============================================================
+     ANIMATION NOUVEAU LEADER — bandeau + confettis
+     ============================================================ */
+  #leaderFx{position:fixed;inset:0;z-index:60;pointer-events:none;display:none}
+  #leaderFx.on{display:block}
+  .lf-band{position:absolute;top:38%;left:0;right:0;
+    background:linear-gradient(90deg,transparent,rgba(58,74,90,.97) 12%,rgba(58,74,90,.97) 88%,transparent);
+    padding:26px 20px;text-align:center;
+    transform:translateX(-110%);animation:bandIn 3.4s cubic-bezier(.2,.9,.2,1) forwards}
+  @keyframes bandIn{
+    0%{transform:translateX(-110%)}
+    18%{transform:translateX(0)}
+    82%{transform:translateX(0)}
+    100%{transform:translateX(110%)}
+  }
+  .lf-kicker{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.3em;
+    font-size:14px;color:var(--gold);margin-bottom:8px}
+  .lf-name{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;
+    font-size:clamp(34px,7vw,68px);line-height:1;color:#fff;letter-spacing:1px}
+  .lf-sub{font-family:'Oswald',sans-serif;font-size:15px;color:#e9e2d0;margin-top:8px;letter-spacing:.1em}
+  .conf{position:absolute;width:10px;height:16px;top:-30px;opacity:0;
+    animation:confFall 2.8s linear forwards}
+  @keyframes confFall{
+    0%{opacity:0;transform:translateY(-30px) rotate(0deg)}
+    10%{opacity:1}
+    100%{opacity:.9;transform:translateY(105vh) rotate(720deg)}
+  }
+
+  /* ============================================================
+     RÉVÉLATION FINALE — compte à rebours plein écran
+     ============================================================ */
+  #revealFx{position:fixed;inset:0;z-index:70;display:none;
+    background:rgba(36,28,20,.94);backdrop-filter:blur(4px)}
+  #revealFx.on{display:flex;align-items:center;justify-content:center;flex-direction:column}
+  .rv-count{font-family:'Anton',Impact,sans-serif;font-size:clamp(120px,30vw,300px);
+    line-height:1;color:var(--gold);text-shadow:0 6px 30px rgba(0,0,0,.5)}
+  .rv-count.pop{animation:countPop .9s ease-out}
+  @keyframes countPop{
+    0%{transform:scale(.3);opacity:0}
+    35%{transform:scale(1.12);opacity:1}
+    70%{transform:scale(1)}
+    100%{transform:scale(1);opacity:1}
+  }
+  .rv-title{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.34em;
+    font-size:clamp(14px,2.4vw,22px);color:#e9e2d0;margin-bottom:20px}
+  /* podium final révélé marche par marche */
+  .rv-podium{display:flex;align-items:flex-end;justify-content:center;gap:14px;
+    max-width:min(920px,92vw);width:100%}
+  .rv-col{flex:1 1 0;max-width:280px;display:flex;flex-direction:column;align-items:stretch;
+    opacity:0;transform:translateY(60px)}
+  .rv-col.show{animation:rvRise .8s cubic-bezier(.2,.9,.25,1.1) forwards}
+  @keyframes rvRise{to{opacity:1;transform:translateY(0)}}
+  .rv-step{width:100%;text-align:center;border-radius:14px 14px 0 0;padding:18px 10px 14px;
+    display:flex;flex-direction:column;justify-content:flex-end;color:var(--ink)}
+  .rv-medal{font-size:clamp(34px,6vw,58px);line-height:1}
+  .rv-nm{font-family:'Anton',Impact,sans-serif;text-transform:uppercase;
+    font-size:clamp(18px,3.4vw,34px);line-height:1.05;margin:6px 0 2px;
+    overflow:hidden;text-overflow:ellipsis}
+  .rv-pts{font-family:'DejaVu Sans Mono',monospace;font-weight:700;
+    font-size:clamp(13px,1.8vw,22px);opacity:.85}
+  .rv-1{height:clamp(150px,26vh,300px);background:linear-gradient(180deg,#f2d873,var(--gold))}
+  .rv-2{height:clamp(112px,19vh,222px);background:linear-gradient(180deg,#c8cdd3,var(--silver))}
+  .rv-3{height:clamp(90px,15vh,176px);background:linear-gradient(180deg,#d6a476,var(--bronze))}
+  .rv-base{height:14px;background:linear-gradient(180deg,#2e251a,#100c08)}
+  .rv-lab{text-align:center;font-family:'Anton',Impact,sans-serif;
+    font-size:clamp(22px,4vw,46px);margin-top:12px}
+  .rv-close{margin-top:26px;font:inherit;font-size:14px;padding:9px 20px;border-radius:999px;
+    border:1px solid rgba(233,226,208,.5);background:transparent;color:#e9e2d0;cursor:pointer;
+    pointer-events:auto}
 
   /* ===== GRAND ÉCRAN / TÉLÉ ===== */
   @media (min-width:1100px){
     .wrap{max-width:1400px;padding:34px 40px 60px}
-    .logo{width:min(360px,32vw)}
     .eyebrow{font-size:16px;letter-spacing:.32em}
     h1{font-size:clamp(64px,6vw,92px)}
     .sub{font-size:22px;margin-top:12px}
@@ -235,6 +289,11 @@
 <body>
 <div id="bgshow"></div>
 <div id="bgveil"></div>
+
+<!-- calques d'animation -->
+<div id="leaderFx"></div>
+<div id="revealFx"></div>
+
 <div class="wrap">
   <header class="top">
     <h1>Les Jeux<br><span class="wolf">Jeannettiques</span></h1>
@@ -243,7 +302,6 @@
     <div class="sub">Classement en direct — chacun pour soi</div>
   </header>
 
-  <!-- onglets du haut : consultation -->
   <div class="tabs">
     <button class="tab active" id="tabPublic">🏆 Classement</button>
     <button class="tab" id="tabRegles">📖 Règles</button>
@@ -314,6 +372,13 @@
         </div>
       </div>
 
+      <div class="card">
+        <h2>🎬 Révélation du podium</h2>
+        <p class="muted" style="margin-bottom:12px">Lance le compte à rebours et la révélation du podium
+          final <b>sur tous les écrans connectés</b> — téléphone et télé en même temps.</p>
+        <button class="btn gold" id="revealBtn" style="width:100%">🎬 Lancer la révélation (3…2…1)</button>
+      </div>
+
       <div class="card" style="text-align:center">
         <button class="btn ghost sm" id="logoutBtn">Verrouiller la saisie</button>
       </div>
@@ -364,7 +429,6 @@
     </div>
   </section>
 
-  <!-- accès saisie, en bas de page -->
   <div class="tabs-bottom">
     <button class="tab" id="tabAdmin">🔧 Saisie</button>
   </div>
@@ -385,8 +449,8 @@ let sb=null;
 const CONFIGURED = SUPABASE_URL.indexOf("TON-PROJET")===-1;
 if(CONFIGURED) sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 
-/* ===== fond photo en mosaïque ===== */
-/* les 13 photos mechoui01.jpg … mechoui13.jpg doivent être
+/* ===== fond photo en mosaïque =====
+   les 13 photos mechoui01.jpg … mechoui13.jpg doivent être
    dans le MÊME dossier que ce fichier index.html */
 (function bgMosaic(){
   const box=document.getElementById("bgshow");
@@ -408,7 +472,6 @@ let participants=[], epreuves=[], places=[], isAdmin=false;
 const $=s=>document.querySelector(s);
 const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
 function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-function short(s){return s.length>14?s.slice(0,13)+"…":s;}
 function epEmoji(nom){
   const n=(nom||"").toLowerCase();
   if(n.includes("chamboule")) return "🥫";
@@ -425,7 +488,6 @@ function epEmoji(nom){
 }
 function scoreOf(pid,eid){const r=places.find(x=>x.participant_id===pid&&x.epreuve_id===eid);return r&&r.place!=null?r.place:null;}
 
-/* bandeau d'erreur d'enregistrement */
 function showSaveError(msg){
   const b=$("#saveErr"); if(!b)return;
   b.innerHTML=`<b>⚠️ Score non enregistré.</b> ${esc(msg||"Erreur inconnue")}`;
@@ -449,6 +511,7 @@ function initAudio(){
     return true;
   }catch(e){ return false; }
 }
+/* note simple : freq, départ (s), durée (s), volume, timbre */
 function note(freq,start,dur,vol,type){
   if(!audioCtx && !initAudio()) return;
   if(audioCtx.state==="suspended") audioCtx.resume();
@@ -463,23 +526,88 @@ function note(freq,start,dur,vol,type){
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.start(t0); osc.stop(t0+dur+0.02);
 }
+/* note "cuivre" : fondamentale + harmoniques, attaque douce.
+   Bien plus proche d'une trompette qu'un simple bip. */
+function brass(freq,start,dur,vol){
+  if(!audioCtx && !initAudio()) return;
+  if(audioCtx.state==="suspended") audioCtx.resume();
+  const t0 = audioCtx.currentTime + start;
+  /* les harmoniques donnent le timbre cuivré */
+  const parts=[[1,1],[2,.42],[3,.24],[4,.12],[5,.06]];
+  parts.forEach(([mult,amp])=>{
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    osc.type="sawtooth";
+    osc.frequency.setValueAtTime(freq*mult,t0);
+    const v=vol*amp;
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(v,t0+0.045);      /* attaque de cuivre */
+    g.gain.setValueAtTime(v,t0+dur*0.62);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(t0); osc.stop(t0+dur+0.03);
+  });
+}
+/* clic discret — saisie d'un score */
 function sndClick(){
   if(!soundOn) return;
   note(880,0,0.05,0.10,"sine");
 }
+/* mouvement ordinaire dans le tableau — petit motif de trompette */
 function sndMove(up){
   if(!soundOn) return;
-  if(up){ note(523,0,0.09,0.13,"triangle"); note(784,0.08,0.13,0.13,"triangle"); }
-  else  { note(523,0,0.09,0.11,"triangle"); note(349,0.08,0.14,0.11,"triangle"); }
+  if(up){ brass(523,0,0.16,0.09); brass(659,0.14,0.26,0.09); }
+  else  { brass(523,0,0.16,0.07); brass(392,0.14,0.28,0.07); }
 }
+/* entrée dans le top 3 (2ᵉ ou 3ᵉ) — trois notes montantes, plus affirmé */
+function sndPodium(){
+  if(!soundOn) return;
+  brass(523,0,0.15,0.11);
+  brass(659,0.14,0.15,0.11);
+  brass(784,0.28,0.40,0.12);
+}
+/* nouveau leader — fanfare style orgue de stade */
 function sndFanfare(){
   if(!soundOn) return;
-  const seq=[[392,0,0.13],[523,0.13,0.13],[659,0.26,0.13],
-             [784,0.39,0.20],[659,0.62,0.11],[784,0.75,0.42]];
-  seq.forEach(([f,s,d])=>{
-    note(f,s,d,0.15,"square");
-    note(f*2,s,d,0.05,"square");
-  });
+  const seq=[[392,0,0.15],[523,0.15,0.15],[659,0.30,0.15],
+             [784,0.45,0.24],[659,0.71,0.13],[784,0.86,0.55]];
+  seq.forEach(([f,s,d])=>brass(f,s,d,0.13));
+}
+/* roulement de tambour pour le compte à rebours */
+function sndRoll(dur){
+  if(!audioCtx && !initAudio()) return;
+  if(!soundOn) return;
+  if(audioCtx.state==="suspended") audioCtx.resume();
+  const t0=audioCtx.currentTime;
+  /* bruit blanc filtré = tambour */
+  const len=Math.floor(audioCtx.sampleRate*dur);
+  const buf=audioCtx.createBuffer(1,len,audioCtx.sampleRate);
+  const data=buf.getChannelData(0);
+  for(let i=0;i<len;i++){
+    /* enveloppe de frappes rapides qui s'accélèrent */
+    const t=i/audioCtx.sampleRate;
+    const beat=Math.abs(Math.sin(t*Math.PI*26));
+    data[i]=(Math.random()*2-1)*beat*0.5;
+  }
+  const src=audioCtx.createBufferSource(); src.buffer=buf;
+  const flt=audioCtx.createBiquadFilter(); flt.type="bandpass";
+  flt.frequency.value=220; flt.Q.value=1.2;
+  const g=audioCtx.createGain();
+  g.gain.setValueAtTime(0.0001,t0);
+  g.gain.exponentialRampToValueAtTime(0.18,t0+0.15);
+  g.gain.setValueAtTime(0.18,t0+dur*0.8);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  src.connect(flt); flt.connect(g); g.connect(audioCtx.destination);
+  src.start(t0); src.stop(t0+dur);
+}
+/* fanfare finale, plus longue et plus large */
+function sndFinal(){
+  if(!soundOn) return;
+  const seq=[[392,0,0.20],[523,0.20,0.20],[659,0.40,0.20],[784,0.60,0.30],
+             [784,0.95,0.18],[880,1.13,0.18],[1047,1.31,0.85]];
+  seq.forEach(([f,s,d])=>brass(f,s,d,0.14));
+  /* basse qui soutient l'accord final */
+  brass(262,0.60,1.55,0.07);
 }
 function setSound(on){
   soundOn=on;
@@ -497,6 +625,153 @@ $("#soundBtn").onclick=()=>{
     sndMove(true);
   } else setSound(false);
 };
+
+/* ============================================================
+   ANIMATION NOUVEAU LEADER
+   ============================================================ */
+const CONF_COLORS=["#c9a227","#c25a2e","#3a4a5a","#3f7d4e","#f2d873","#9aa0a6"];
+function playLeaderFx(nom,pts){
+  const box=$("#leaderFx");
+  box.innerHTML="";
+  /* le bandeau qui traverse */
+  const band=el("div","lf-band");
+  band.innerHTML=`<div class="lf-kicker">Nouveau leader</div>
+    <div class="lf-name">${esc(nom)}</div>
+    <div class="lf-sub">${pts} points — prend la tête</div>`;
+  box.appendChild(band);
+  /* les confettis */
+  for(let i=0;i<70;i++){
+    const c=el("div","conf");
+    c.style.left=(Math.random()*100)+"%";
+    c.style.background=CONF_COLORS[i%CONF_COLORS.length];
+    c.style.animationDelay=(Math.random()*0.9)+"s";
+    c.style.animationDuration=(2.2+Math.random()*1.4)+"s";
+    if(Math.random()>0.6) c.style.borderRadius="50%";
+    box.appendChild(c);
+  }
+  box.classList.add("on");
+  setTimeout(()=>{ box.classList.remove("on"); box.innerHTML=""; },4200);
+}
+
+/* ============================================================
+   RÉVÉLATION FINALE — compte à rebours puis podium
+   ============================================================ */
+let revealSeen=null;   /* dernier horodatage de révélation déjà joué */
+let revealRunning=false;
+
+function playReveal(){
+  if(revealRunning) return;
+  const r=ranking().filter(x=>x.total>0);
+  if(!r.length) return;
+  revealRunning=true;
+  const box=$("#revealFx");
+  box.innerHTML="";
+  box.classList.add("on");
+
+  /* étape 1 : le compte à rebours */
+  const count=el("div","rv-count");
+  const title=el("div","rv-title"); title.textContent="Podium final";
+  box.appendChild(title); box.appendChild(count);
+  sndRoll(3.4);
+
+  let n=3;
+  const tick=()=>{
+    count.textContent=n;
+    count.classList.remove("pop");
+    void count.offsetWidth;      /* relance l'animation */
+    count.classList.add("pop");
+    n--;
+    if(n>=1) setTimeout(tick,1000);
+    else setTimeout(showPodium,1000);
+  };
+  tick();
+
+  /* étape 2 : les marches montent une par une */
+  function showPodium(){
+    box.innerHTML="";
+    const t=el("div","rv-title"); t.textContent="Les Jeux Jeannettiques 2026";
+    box.appendChild(t);
+
+    const pod=el("div","rv-podium");
+    const order=[1,0,2];                       /* 2ᵉ, 1ᵉʳ, 3ᵉ visuellement */
+    const medals=["🥇","🥈","🥉"], cls=["rv-1","rv-2","rv-3"], lab=["1ᵉʳ","2ᵉ","3ᵉ"];
+    const cols={};
+    order.forEach(idx=>{
+      if(!r[idx]) return;
+      const col=el("div","rv-col");
+      const st=el("div","rv-step "+cls[idx]);
+      st.innerHTML=`<div class="rv-medal">${medals[idx]}</div>
+        <div class="rv-nm">${esc(r[idx].p.nom)}</div>
+        <div class="rv-pts">${r[idx].total} pts</div>`;
+      const base=el("div","rv-base");
+      const lb=el("div","rv-lab"); lb.textContent=lab[idx];
+      lb.style.color = idx===0?"#c9a227":(idx===1?"#9aa0a6":"#b07a4a");
+      col.append(st,base,lb);
+      pod.appendChild(col);
+      cols[idx]=col;
+    });
+    box.appendChild(pod);
+
+    const close=el("button","rv-close");
+    close.textContent="Fermer";
+    close.onclick=()=>{ box.classList.remove("on"); box.innerHTML=""; revealRunning=false; };
+    box.appendChild(close);
+
+    /* révélation dans l'ordre du suspense : 3ᵉ, puis 2ᵉ, puis 1ᵉʳ */
+    const seq=[2,1,0];
+    seq.forEach((idx,i)=>{
+      setTimeout(()=>{
+        if(cols[idx]) cols[idx].classList.add("show");
+        if(idx===0){ sndFinal(); playConfettiBurst(); }
+        else if(soundOn) brass(idx===2?523:659,0,0.30,0.11);
+      }, 700*i+300);
+    });
+    /* fermeture automatique au bout d'un moment */
+    setTimeout(()=>{
+      if(box.classList.contains("on")){
+        box.classList.remove("on"); box.innerHTML=""; revealRunning=false;
+      }
+    },16000);
+  }
+}
+/* pluie de confettis par-dessus la révélation */
+function playConfettiBurst(){
+  const box=$("#revealFx");
+  for(let i=0;i<90;i++){
+    const c=el("div","conf");
+    c.style.left=(Math.random()*100)+"%";
+    c.style.background=CONF_COLORS[i%CONF_COLORS.length];
+    c.style.animationDelay=(Math.random()*1.1)+"s";
+    c.style.animationDuration=(2.4+Math.random()*1.6)+"s";
+    if(Math.random()>0.6) c.style.borderRadius="50%";
+    box.appendChild(c);
+  }
+}
+/* l'admin écrit un horodatage : tous les écrans le voient via le Realtime */
+async function triggerReveal(){
+  if(!CONFIGURED){ playReveal(); return; }
+  const stamp=String(Date.now());
+  const {error}=await sb.from("config").update({valeur:stamp}).eq("cle","reveal");
+  if(error){
+    console.error("Erreur révélation :",error);
+    alert("Impossible de lancer la révélation : "+error.message+
+          "\n\nVérifie qu'une ligne cle='reveal' existe dans la table config.");
+    return;
+  }
+  revealSeen=stamp;   /* on évite de la rejouer deux fois côté admin */
+  playReveal();
+}
+/* on surveille la valeur de reveal à chaque rechargement */
+async function checkReveal(){
+  if(!CONFIGURED) return;
+  const {data}=await sb.from("config").select("valeur").eq("cle","reveal").single();
+  if(!data) return;
+  const v=data.valeur;
+  if(v && v!=="0"){
+    if(revealSeen===null){ revealSeen=v; return; }  /* première lecture : on note sans jouer */
+    if(v!==revealSeen){ revealSeen=v; playReveal(); }
+  }
+}
 
 /* ============================================================
    MÉMOIRE DU CLASSEMENT — flèches de mouvement
@@ -528,10 +803,11 @@ function detectMoves(rows){
   rows.forEach((row,i)=>{ curRanks[row.p.id]=i+1; });
 
   const isFirstRun = Object.keys(prevRanks).length===0;
-  let leaderChanged=false, anyMove=false, bestUp=false;
+  let leaderChanged=false, anyMove=false, bestUp=false, enteredPodium=false;
+  let newLeaderRow=null;
 
   if(!isFirstRun){
-    rows.forEach(row=>{
+    rows.forEach((row,i)=>{
       const id=row.p.id;
       const before=prevRanks[id];
       const now=curRanks[id];
@@ -542,14 +818,24 @@ function detectMoves(rows){
         flash[id]=true;
         anyMove=true;
         if(delta>0) bestUp=true;
+        /* entrée dans le top 3 (hors 1ʳᵉ place, traitée à part) */
+        if(delta>0 && now<=3 && before>3) enteredPodium=true;
+        if(delta>0 && (now===2||now===3) && before>now) enteredPodium=true;
       }
     });
     const curLeader = rows.length && rows[0].total>0 ? rows[0].p.id : null;
-    if(curLeader!=null && prevLeader!=null && curLeader!==prevLeader) leaderChanged=true;
-    if(curLeader!=null && prevLeader==null) leaderChanged=true;
+    if(curLeader!=null && curLeader!==prevLeader){
+      leaderChanged=true;
+      newLeaderRow=rows[0];
+    }
   }
 
-  if(leaderChanged) sndFanfare();
+  /* hiérarchie des sons : leader > podium > mouvement simple */
+  if(leaderChanged){
+    sndFanfare();
+    if(newLeaderRow) playLeaderFx(newLeaderRow.p.nom,newLeaderRow.total);
+  }
+  else if(enteredPodium) sndPodium();
   else if(anyMove) sndMove(bestUp);
 
   prevRanks=curRanks;
@@ -631,7 +917,7 @@ function renderRank(){
   const flash=detectMoves(r);
   const htr=el("tr");
   htr.innerHTML=`<th class="stick stick-rank"></th><th class="stick stick-name">Participant</th>`+
-    epreuves.map((e,i)=>`<th class="ephead"><span class="epemo">${epEmoji(e.nom)}</span><span class="epname">${esc(e.nom)}</span></th>`).join("")+
+    epreuves.map(e=>`<th class="ephead"><span class="epemo">${epEmoji(e.nom)}</span><span class="epname">${esc(e.nom)}</span></th>`).join("")+
     `<th style="text-align:right">Total</th>`;
   thead.innerHTML=""; thead.appendChild(htr);
   tb.innerHTML="";
@@ -671,8 +957,16 @@ function renderAdmin(){
   participants.forEach(p=>{
     const d=el("div","grid-row");
     d.innerHTML=`<span>${esc(p.nom)} <span class="pill">${total[p.id]||0} pts</span></span>`;
-    const b=el("button","btn danger sm");b.textContent="Suppr.";b.onclick=()=>delPart(p.id);
-    d.appendChild(b);pl.appendChild(d);
+    const acts=el("div","acts");
+    /* modification du prénom */
+    const bEdit=el("button","btn ghost sm");
+    bEdit.textContent="Modifier";
+    bEdit.onclick=()=>editPart(p.id,p.nom);
+    const bDel=el("button","btn danger sm");
+    bDel.textContent="Suppr.";
+    bDel.onclick=()=>delPart(p.id);
+    acts.append(bEdit,bDel);
+    d.appendChild(acts); pl.appendChild(d);
   });
   if(!participants.length)pl.innerHTML='<p class="muted">Aucun participant.</p>';
 
@@ -680,8 +974,15 @@ function renderAdmin(){
   epreuves.forEach(e=>{
     const d=el("div","grid-row");
     d.innerHTML=`<span>${esc(e.nom)}</span>`;
-    const b=el("button","btn danger sm");b.textContent="Suppr.";b.onclick=()=>delEp(e.id);
-    d.appendChild(b);epl.appendChild(d);
+    const acts=el("div","acts");
+    const bEdit=el("button","btn ghost sm");
+    bEdit.textContent="Modifier";
+    bEdit.onclick=()=>editEp(e.id,e.nom);
+    const bDel=el("button","btn danger sm");
+    bDel.textContent="Suppr.";
+    bDel.onclick=()=>delEp(e.id);
+    acts.append(bEdit,bDel);
+    d.appendChild(acts); epl.appendChild(d);
   });
   if(!epreuves.length)epl.innerHTML='<p class="muted">Aucune épreuve.</p>';
 
@@ -786,6 +1087,20 @@ async function addPart(){
   if(!CONFIGURED){participants.push({id:Date.now(),nom});renderAll();return;}
   await sb.from("participants").insert({nom}); loadAll();
 }
+/* modification du prénom d'un participant */
+async function editPart(id,ancien){
+  const nom=prompt("Nouveau nom du participant :",ancien);
+  if(nom==null) return;
+  const v=nom.trim();
+  if(!v || v===ancien) return;
+  if(!CONFIGURED){
+    const p=participants.find(x=>x.id===id); if(p)p.nom=v;
+    renderAll(); return;
+  }
+  const {error}=await sb.from("participants").update({nom:v}).eq("id",id);
+  if(error){ alert("Modification impossible : "+error.message); return; }
+  loadAll();
+}
 async function delPart(id){
   if(!confirm("Supprimer ce participant et ses résultats ?"))return;
   if(!CONFIGURED){participants=participants.filter(p=>p.id!==id);places=places.filter(s=>s.participant_id!==id);renderAll();return;}
@@ -796,6 +1111,20 @@ async function addEp(){
   const ordre=epreuves.length+1;
   if(!CONFIGURED){epreuves.push({id:Date.now(),nom,ordre});renderAll();return;}
   await sb.from("epreuves").insert({nom,ordre}); loadAll();
+}
+/* modification du nom d'une épreuve */
+async function editEp(id,ancien){
+  const nom=prompt("Nouveau nom de l'épreuve :",ancien);
+  if(nom==null) return;
+  const v=nom.trim();
+  if(!v || v===ancien) return;
+  if(!CONFIGURED){
+    const e=epreuves.find(x=>x.id===id); if(e)e.nom=v;
+    renderAll(); return;
+  }
+  const {error}=await sb.from("epreuves").update({nom:v}).eq("id",id);
+  if(error){ alert("Modification impossible : "+error.message); return; }
+  loadAll();
 }
 async function delEp(id){
   if(!confirm("Supprimer cette épreuve et ses résultats ?"))return;
@@ -843,6 +1172,13 @@ function subscribe(){
     .on("postgres_changes",{event:"*",schema:"public",table:"places"},()=>loadAll())
     .on("postgres_changes",{event:"*",schema:"public",table:"participants"},()=>loadAll())
     .on("postgres_changes",{event:"*",schema:"public",table:"epreuves"},()=>loadAll())
+    .on("postgres_changes",{event:"*",schema:"public",table:"config"},payload=>{
+      /* la révélation est déclenchée par un changement de la ligne reveal */
+      const row=payload.new;
+      if(row && row.cle==="reveal" && row.valeur && row.valeur!=="0"){
+        if(row.valeur!==revealSeen){ revealSeen=row.valeur; playReveal(); }
+      }
+    })
     .subscribe();
 }
 
@@ -865,7 +1201,6 @@ function setTab(which){
     $("#tab"+v).classList.toggle("active", v===which);
     $("#view"+v).classList.toggle("hide", v!==which);
   });
-  /* on remonte en haut de page au changement d'onglet */
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function fillRegles(){
@@ -889,6 +1224,10 @@ $("#toggleGrid").onclick=()=>{
 $("#loginBtn").onclick=login;$("#adminPass").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
 $("#logoutBtn").onclick=logout;
 $("#resetScores").onclick=resetScores;
+$("#revealBtn").onclick=()=>{
+  if(!confirm("Lancer la révélation du podium sur tous les écrans ?"))return;
+  triggerReveal();
+};
 
 /* ===== demo ===== */
 function demoData(){
@@ -910,7 +1249,7 @@ function demoData(){
 loadPrev();
 try{ if(localStorage.getItem("jj_sound")==="1"){ soundOn=true; setSound(true); } }catch(e){}
 if(CONFIGURED)$("#foot").innerHTML='';
-loadAll(); subscribe();
+loadAll(); subscribe(); checkReveal();
 </script>
 </body>
 </html>
