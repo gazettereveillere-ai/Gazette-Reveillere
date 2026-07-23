@@ -52,6 +52,10 @@
   .tab{border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
     padding:9px 16px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer;transition:.15s}
   .tab.active{background:var(--wolf);color:#fff;border-color:var(--wolf);box-shadow:var(--shadow)}
+  /* barre d'onglets du bas : accès saisie, discret */
+  .tabs-bottom{display:flex;gap:8px;justify-content:center;margin:28px 0 0}
+  .tabs-bottom .tab{font-size:13px;padding:7px 14px;opacity:.75}
+  .tabs-bottom .tab.active{opacity:1}
   .card{background:rgba(245,240,228,.97);border:1px solid var(--line);border-radius:16px;
     padding:18px;margin-top:16px;box-shadow:var(--shadow);backdrop-filter:blur(2px)}
   .card h2{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
@@ -108,16 +112,18 @@
   tr.top1 td.rank{color:var(--gold)}
   tr.top2 td.rank{color:var(--silver)}
   tr.top3 td.rank{color:var(--bronze)}
+  /* flèches de mouvement : seules touches de couleur */
   .mv{display:inline-block;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;
     margin-left:4px;letter-spacing:0;vertical-align:1px}
   .mv.up{color:var(--green)}
   .mv.down{color:var(--ember)}
+  /* flash neutre : gris chaud très discret, la couleur reste aux flèches */
   @keyframes rowflash{
-    0%{background:rgba(201,162,39,.55)}
+    0%{background:rgba(91,79,63,.16)}
     100%{background:transparent}
   }
   tr.flash td{animation:rowflash 3s ease-out forwards}
-  tr.flash td.stick{animation:none;background:rgba(240,222,160,.95)}
+  tr.flash td.stick{animation:none;background:rgba(238,232,218,.98)}
   .sound-btn{font:inherit;font-size:13px;padding:5px 12px;border-radius:999px;
     border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
     cursor:pointer;transition:.15s;margin-left:auto}
@@ -174,8 +180,6 @@
   .errbar{background:var(--ember);color:#fff;border-radius:10px;padding:10px 12px;
     font-size:13px;margin-bottom:12px;line-height:1.4}
   .errbar b{font-weight:700}
-  .tab-mobile{display:none}
-  @media (max-width:760px){.tab-mobile{display:inline-block}}
   .reg-list{margin:0 0 0 22px;padding:0}
   .reg-list li{padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
   .reg-list li:last-child{border-bottom:none}
@@ -198,6 +202,7 @@
     .sub{font-size:22px;margin-top:12px}
     .tabs{margin:26px 0 10px}
     .tab{font-size:19px;padding:12px 26px}
+    .tabs-bottom .tab{font-size:15px;padding:9px 18px}
     .card{padding:28px 32px;border-radius:22px;margin-top:24px}
     .card h2{font-size:32px;margin-bottom:20px}
     .podium{gap:22px;margin:20px auto 6px;max-width:960px}
@@ -238,10 +243,10 @@
     <div class="sub">Classement en direct — chacun pour soi</div>
   </header>
 
+  <!-- onglets du haut : consultation -->
   <div class="tabs">
     <button class="tab active" id="tabPublic">🏆 Classement</button>
-    <button class="tab" id="tabAdmin">🔧 Saisie</button>
-    <button class="tab tab-mobile" id="tabRegles">📖 Règles</button>
+    <button class="tab" id="tabRegles">📖 Règles</button>
   </div>
 
   <!-- ============ PUBLIC ============ -->
@@ -315,7 +320,7 @@
     </div>
   </section>
 
-  <!-- ============ RÈGLES (mobile) ============ -->
+  <!-- ============ RÈGLES ============ -->
   <section id="viewRegles" class="hide">
     <div class="card">
       <h2>🎯 Les épreuves</h2>
@@ -358,6 +363,11 @@
       </ul>
     </div>
   </section>
+
+  <!-- accès saisie, en bas de page -->
+  <div class="tabs-bottom">
+    <button class="tab" id="tabAdmin">🔧 Saisie</button>
+  </div>
 
   <p class="foot" id="foot"></p>
 </div>
@@ -761,11 +771,10 @@ async function loadAll(){
     sb.from("epreuves").select("*").order("ordre"),
     sb.from("places").select("*")
   ]);
-  /* on remonte les erreurs de lecture au lieu d'afficher une page vide */
   if(pa.error||ep.error||pl.error){
-    const msg=(pa.error||ep.error||pl.error).message;
-    console.error("Erreur de chargement Supabase :",pa.error||ep.error||pl.error);
-    $("#emptyPublic").textContent="Erreur de chargement : "+msg;
+    const e0=pa.error||ep.error||pl.error;
+    console.error("Erreur de chargement Supabase :",e0);
+    $("#emptyPublic").textContent="Erreur de chargement : "+e0.message;
   }
   participants=pa.data||[]; epreuves=ep.data||[]; places=pl.data||[];
   renderAll();
@@ -856,6 +865,8 @@ function setTab(which){
     $("#tab"+v).classList.toggle("active", v===which);
     $("#view"+v).classList.toggle("hide", v!==which);
   });
+  /* on remonte en haut de page au changement d'onglet */
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 function fillRegles(){
   const ol=$("#reglesEpreuves"); if(!ol)return;
