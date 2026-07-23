@@ -86,3 +86,658 @@
   .step.s1 .pod-drop{animation-delay:.15s}
   .step.s2 .pod-drop{animation-delay:.35s}
   .step.s3 .pod-drop{animation-delay:.55s}
+  @keyframes drop{0%{opacity:0;transform:translateY(-40px)}60%{opacity:1;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+  .step .rk{display:none}
+  .podseg{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
+    margin:0 -5px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .podcol:first-child .podseg{border-radius:0 0 0 8px;margin-left:0}
+  .podcol:last-child .podseg{border-radius:0 0 8px 0;margin-right:0}
+  .plabel{width:100%;text-align:center;font-family:'Anton',Impact,sans-serif;
+    font-size:30px;line-height:1;letter-spacing:.5px;margin-top:14px;margin-bottom:6px}
+  .s1-lab{color:var(--gold)}.s2-lab{color:var(--silver)}.s3-lab{color:var(--bronze)}
+  .podium-base{height:12px;background:linear-gradient(180deg,#2e251a,var(--ink));
+    border-radius:0 0 8px 8px;margin-bottom:14px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  @media(prefers-reduced-motion:reduce){.pod-drop,.pod-drop.play{animation:none;opacity:1;transform:none}.step::after{animation:none}}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line)}
+  th{font-family:'DejaVu Sans Mono',monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-soft)}
+  td.rank{font-weight:800;width:34px;color:var(--wolf)}
+  td.total{font-weight:800;text-align:right;font-family:'DejaVu Sans Mono',monospace}
+  td.pt{text-align:center;font-family:'DejaVu Sans Mono',monospace;color:var(--ink-soft)}
+  /* colonnes rang + participant figées lors du scroll horizontal */
+  th.stick,td.stick{position:sticky;background:rgba(245,240,228,.98);z-index:2}
+  th.stick-rank,td.stick-rank{left:0}
+  th.stick-name,td.stick-name{left:34px;box-shadow:2px 0 5px -2px rgba(40,30,15,.18);
+    min-width:150px;white-space:nowrap}
+  tr.top1 td.rank{color:var(--gold)}
+  tr.top2 td.rank{color:var(--silver)}
+  tr.top3 td.rank{color:var(--bronze)}
+  .scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .ephead{text-align:center;min-width:96px;vertical-align:bottom}
+  .ephead .epemo{display:block;font-size:20px;line-height:1.4;margin-bottom:2px}
+  .ephead .epname{display:block;font-family:'Oswald',sans-serif;font-weight:500;
+    font-size:11px;letter-spacing:.02em;color:var(--ink-soft);text-transform:none;
+    line-height:1.15;white-space:normal}
+  .scroll-wrap{position:relative}
+  .scroll-hint{text-align:right;font-family:'Oswald',sans-serif;font-size:13px;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--ember);
+    margin-top:8px;animation:hintpulse 1.8s ease-in-out infinite}
+  @keyframes hintpulse{0%,100%{opacity:.5;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+  .scroll-hint.gone{display:none}
+  input,select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+  input:focus,select:focus{outline:2px solid var(--wolf);outline-offset:1px}
+  .btn{font:inherit;font-size:14px;padding:9px 15px;border-radius:10px;border:1px solid var(--wolf);
+    background:var(--wolf);color:#fff;cursor:pointer;transition:.15s;white-space:nowrap}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:transparent;color:var(--wolf)}
+  .btn.danger{background:var(--ember);border-color:var(--ember)}
+  .btn.sm{padding:6px 10px;font-size:13px}
+  .row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .grid-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
+    padding:8px 0;border-bottom:1px solid var(--line)}
+  .muted{color:var(--ink-soft);font-size:13px}
+  .pill{display:inline-block;background:var(--sand);border:1px solid var(--line);
+    border-radius:999px;padding:2px 10px;font-size:12px;font-family:'DejaVu Sans Mono',monospace}
+  .hide{display:none!important}
+  .lock{max-width:340px;margin:40px auto;text-align:center}
+  .lock h2{justify-content:center}
+  .foot{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:26px;font-style:italic}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .place-in{width:70px;text-align:center;font-family:'DejaVu Sans Mono',monospace}
+  .score-in{width:64px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:7px 6px}
+  .maxhint{font-size:12px;color:var(--ink-soft);margin-left:6px}
+  /* grille tableau complet (type Excel) */
+  #scoreGridFull table{font-size:13px}
+  #scoreGridFull th,#scoreGridFull td{padding:6px 6px;text-align:center;border:1px solid var(--line)}
+  #scoreGridFull th.stick,#scoreGridFull td.stick{position:sticky;left:0;z-index:2;
+    background:rgba(245,240,228,.98);text-align:left;box-shadow:2px 0 5px -2px rgba(40,30,15,.18);min-width:150px;white-space:nowrap}
+  #scoreGridFull thead th{font-family:'Oswald',sans-serif;font-weight:500;font-size:11px;
+    color:var(--ink-soft);text-transform:none;vertical-align:bottom;min-width:76px}
+  #scoreGridFull thead th .emo{display:block;font-size:16px}
+  #scoreGridFull td.tot{font-weight:800;font-family:'DejaVu Sans Mono',monospace;color:var(--wolf);
+    background:var(--sand);position:sticky;right:0}
+  #scoreGridFull th.tot{position:sticky;right:0;background:var(--sand)}
+  #scoreGridFull input{width:56px;text-align:center;font-family:'DejaVu Sans Mono',monospace;padding:5px 4px;border-radius:8px}
+  .ptbadge{min-width:44px;text-align:right;font-family:'DejaVu Sans Mono',monospace;font-weight:700;color:var(--wolf)}
+  .medalmini{margin-left:4px}
+  .info{background:var(--sand);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink-soft);margin-bottom:12px}
+  /* onglet Règles visible sur mobile uniquement */
+  .tab-mobile{display:none}
+  @media (max-width:760px){.tab-mobile{display:inline-block}}
+  .reg-list{margin:0 0 0 22px;padding:0}
+  .reg-list li{padding:5px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .reg-list li:last-child{border-bottom:none}
+  .reg-p{font-size:15px;line-height:1.5;margin-bottom:10px}
+  .reg-bul{margin:0 0 4px 20px;padding:0}
+  .reg-bul li{padding:5px 0;font-size:15px;line-height:1.45}
+  .reg-ex{background:var(--sand);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin:12px 0;font-family:'DejaVu Sans Mono',monospace;
+    font-size:13px;line-height:1.6;color:var(--ink)}
+  .reg-ex-t{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;
+    font-size:12px;color:var(--ember);margin-bottom:4px}
+  @media (max-width:560px){.step .nm{font-size:13px}}
+
+  /* ===== GRAND ÉCRAN / TÉLÉ (paysage large) ===== */
+  @media (min-width:1100px){
+    .wrap{max-width:1400px;padding:34px 40px 60px}
+    .logo{width:min(360px,32vw)}
+    .eyebrow{font-size:16px;letter-spacing:.32em}
+    h1{font-size:clamp(64px,6vw,92px)}
+    .sub{font-size:22px;margin-top:12px}
+    .tabs{margin:26px 0 10px}
+    .tab{font-size:19px;padding:12px 26px}
+    .card{padding:28px 32px;border-radius:22px;margin-top:24px}
+    .card h2{font-size:32px;margin-bottom:20px}
+    /* podium bien plus grand */
+    .podium{gap:22px;margin:20px auto 6px;max-width:960px}
+    .podcol{max-width:300px}
+    .podseg{height:18px;margin:0 -11px}
+    .step{padding:22px 14px 18px;border-radius:18px 18px 0 0}
+    .step .medal{font-size:52px}
+    .step .nm{font-size:30px}
+    .step .pts{font-size:24px}
+    .plabel{font-size:56px;margin-top:26px}
+    .s1{height:280px}.s2{height:210px}.s3{height:168px}
+    /* tableau lisible de loin */
+    table{font-size:26px}
+    th{font-size:15px}
+    th,td{padding:16px 14px}
+    td.rank{width:60px;font-size:30px}
+    th.stick-name,td.stick-name{left:60px;min-width:280px}
+    .foot{font-size:16px}
+  }
+  @media (min-width:1600px){
+    h1{font-size:110px}
+    table{font-size:30px}
+    .step .nm{font-size:36px}
+    .step .medal{font-size:64px}
+    .s1{height:330px}.s2{height:250px}.s3{height:200px}
+  }
+</style>
+</head>
+<body>
+<div id="bgshow"></div>
+<div id="bgveil"></div>
+<div class="wrap">
+  <header class="top">
+    <h1>Les Jeux<br><span class="wolf">Jeannettiques</span></h1>
+    <div class="title-orn" style="margin-top:14px;margin-bottom:0">✦ ÉDITION 2026 ✦</div>
+    <div class="eyebrow" style="margin-top:10px;margin-bottom:0">Le grand tournoi du méchoui familial</div>
+    <div class="sub">Classement en direct — chacun pour soi</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" id="tabPublic">🏆 Classement</button>
+    <button class="tab" id="tabAdmin">🔧 Saisie</button>
+    <button class="tab tab-mobile" id="tabRegles">📖 Règles</button>
+  </div>
+
+  <!-- ============ PUBLIC ============ -->
+  <section id="viewPublic">
+    <div class="card">
+      <h2><span class="live-dot"></span>Podium</h2>
+      <div class="podium" id="podium"></div>
+    </div>
+    <div class="card">
+      <h2>Classement général</h2>
+      <div class="scroll-wrap">
+        <div class="scroll-x" id="rankScroll"><table id="rankTable"><thead></thead><tbody></tbody></table></div>
+        <div class="scroll-hint" id="scrollHint">glisse pour voir les épreuves →</div>
+      </div>
+      <p class="muted" id="emptyPublic" style="margin-top:8px"></p>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN ============ -->
+  <section id="viewAdmin" class="hide">
+    <div class="card lock" id="lockCard">
+      <h2>🔒 Accès saisie</h2>
+      <p class="muted" style="margin-bottom:12px">Réservé à l'organisateur.</p>
+      <div class="row"><input type="password" id="adminPass" placeholder="Code admin" autocomplete="off"></div>
+      <button class="btn" id="loginBtn" style="width:100%">Déverrouiller</button>
+      <p class="muted" id="lockMsg" style="margin-top:8px;color:var(--ember)"></p>
+    </div>
+
+    <div id="adminPanel" class="hide">
+      <div class="card">
+        <h2>👥 Participants</h2>
+        <div class="row">
+          <input id="newPart" placeholder="Nom du participant" autocomplete="off">
+          <button class="btn" id="addPart">Ajouter</button>
+        </div>
+        <div id="partList"></div>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Épreuves</h2>
+        <div class="row">
+          <input id="newEp" placeholder="Nom de l'épreuve" autocomplete="off">
+          <button class="btn" id="addEp">Ajouter</button>
+        </div>
+        <div id="epList"></div>
+      </div>
+
+      <div class="card">
+        <h2>✏️ Saisie des scores</h2>
+        <div class="info">Saisis directement les <b>points bruts</b> de chaque joueur, épreuve par épreuve.
+          Laisse la case <b>vide</b> si le joueur n'a pas fait l'épreuve (0 pt). Le classement se met à
+          jour en direct. Utilise le sélecteur pour changer d'épreuve, ou la vue tableau pour tout voir.</div>
+        <div class="row" style="justify-content:space-between;flex-wrap:wrap">
+          <select id="epSelect" style="flex:1 1 200px"></select>
+          <button class="btn ghost sm" id="toggleGrid">Vue tableau complet</button>
+        </div>
+        <div id="scoreGrid"></div>
+        <div id="scoreGridFull" class="hide"></div>
+        <div style="margin-top:14px;border-top:1px solid var(--line);padding-top:14px">
+          <button class="btn danger sm" id="resetScores">🗑️ Remise à 0 des scores</button>
+          <p class="muted" style="margin-top:6px">Efface tous les résultats saisis. Les joueurs et les épreuves sont conservés.</p>
+        </div>
+      </div>
+
+      <div class="card" style="text-align:center">
+        <button class="btn ghost sm" id="logoutBtn">Verrouiller la saisie</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RÈGLES (mobile) ============ -->
+  <section id="viewRegles" class="hide">
+    <div class="card">
+      <h2>🎯 Les épreuves</h2>
+      <p class="muted" style="margin-bottom:10px">10 épreuves solo, chacun pour soi. On joue chaque épreuve à son tour et on note les points.</p>
+      <ol class="reg-list" id="reglesEpreuves"></ol>
+    </div>
+
+    <div class="card">
+      <h2>🏅 Le barème</h2>
+      <p class="reg-p">Dans chaque épreuve, tu marques des <b>points bruts</b> selon ta performance. Chaque épreuve a son propre maximum&nbsp;:</p>
+      <ul class="reg-bul">
+        <li>Chamboule-tout&nbsp;: 1 pt par boîte tombée (max <b>10</b>).</li>
+        <li>Pétanque précision&nbsp;: zones à 1, 3 ou 5 pts, 3 boules (max <b>15</b>).</li>
+        <li>Lancer d'anneaux&nbsp;: 1 pt par anneau (max <b>4</b>).</li>
+        <li>Cornhole&nbsp;: 1 pt par sac (max <b>4</b>).</li>
+        <li>Jeu du sabot&nbsp;: 1 pt par palet (max <b>5</b>).</li>
+        <li>Tir aux verres&nbsp;: verres à 1/2/3/5, 3 balles (max <b>15</b>).</li>
+        <li>Mölkky&nbsp;: 1 pt par quille, strike = <b>12</b>.</li>
+        <li>Fer à cheval&nbsp;: 5 pts autour, 3 pts dans la zone, 3 fers (max <b>15</b>).</li>
+        <li>Lancer de palet&nbsp;: selon le barème de la cible.</li>
+        <li>Parcours d'agilité&nbsp;: &lt;10s = 5, &lt;20s = 3, &lt;30s = 1 pt.</li>
+      </ul>
+      <p class="reg-p">Le classement général <b>additionne les points bruts</b> de toutes les épreuves, au fur et à mesure de la journée. Tu ne fais pas une épreuve&nbsp;? <b>0 point</b> dessus.</p>
+    </div>
+
+    <div class="card">
+      <h2>⚖️ Les égalités</h2>
+      <p class="reg-p"><b>Au podium final&nbsp;:</b> si deux joueurs (ou plus) finissent à égalité pour une place du podium, on met toutes les épreuves dans un chapeau et une <b>main innocente</b> en tire une au sort.</p>
+      <p class="reg-p">Les joueurs à égalité <b>rejouent cette épreuve</b> : le meilleur score l'emporte. Ça évite les calculs et ça fait un beau final&nbsp;!</p>
+    </div>
+
+    <div class="card">
+      <h2>🔥 Le déroulement</h2>
+      <ul class="reg-bul">
+        <li>Les épreuves s'enchaînent <b>tout au long de la journée</b>, au rythme du méchoui.</li>
+        <li>Un <b>arbitre</b> veille au bon déroulement et note les points — et surtout, il ne fait pas partie de la même branche de la famille que les joueurs qu'il départage, histoire de garder tout ça bien impartial&nbsp;! 😉</li>
+        <li>Le classement se met à jour <b>en direct</b> — suis ta progression sur ton téléphone&nbsp;!</li>
+        <li>Le classement est aussi projeté <b>en direct sur la TV</b> pendant le méchoui — le podium et les scores s'actualisent tout seuls sous les yeux de tout le monde&nbsp;! 📺</li>
+        <li>Le podium final récompense les trois meilleurs cumuls de la journée.</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============================================================
+   CONFIG SUPABASE — À REMPLIR (Project Settings > API)
+   ============================================================ */
+const SUPABASE_URL  = "https://aaozrdgtmlcmuhhzbohu.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhb3pyZGd0bWxjbXVoaHpib2h1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2MjAwODgsImV4cCI6MjEwMDE5NjA4OH0.s5rd6VEn4v1LSorTbQDJ6m9A6tH0hYiksvWN0-svGjw";
+/* ============================================================ */
+
+let sb=null;
+const CONFIGURED = SUPABASE_URL.indexOf("TON-PROJET")===-1;
+if(CONFIGURED) sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+
+/* ===== fond photo en mosaïque ===== */
+(function bgMosaic(){
+  const box=document.getElementById("bgshow");
+  const N=13;
+  // on remplit assez de tuiles pour couvrir tout l'écran, en répétant les photos
+  const cols = window.innerWidth<760?3:(window.innerWidth>=1400?5:4);
+  const rows = Math.ceil(window.innerHeight / (window.innerWidth/cols)) + 2;
+  const count = cols*rows;
+  for(let k=0;k<count;k++){
+    const i=(k%N)+1;
+    const d=document.createElement("div");
+    d.className="tile";
+    d.style.backgroundImage=`url('mechoui${String(i).padStart(2,'0')}.jpg')`;
+    box.appendChild(d);
+  }
+})();
+
+let participants=[], epreuves=[], places=[], isAdmin=false;
+
+const $=s=>document.querySelector(s);
+const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
+function esc(s){return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function short(s){return s.length>14?s.slice(0,13)+"…":s;}
+function epEmoji(nom){
+  const n=(nom||"").toLowerCase();
+  if(n.includes("chamboule")) return "🥫";
+  if(n.includes("pétanque")||n.includes("petanque")) return "🎯";
+  if(n.includes("anneau")) return "⭕";
+  if(n.includes("cornhole")||n.includes("sac")) return "🌽";
+  if(n.includes("sabot")) return "🥾";
+  if(n.includes("verre")||n.includes("beer")||n.includes("pong")) return "🥤";
+  if(n.includes("fer")||n.includes("cheval")) return "🧲";
+  if(n.includes("mölkky")||n.includes("molkky")) return "🎳";
+  if(n.includes("palet")) return "🥏";
+  if(n.includes("agilité")||n.includes("agilite")||n.includes("parcours")) return "🏃";
+  return "🏅";
+}
+/* points bruts saisis pour un joueur à une épreuve (null si non saisi) */
+function scoreOf(pid,eid){const r=places.find(x=>x.participant_id===pid&&x.epreuve_id===eid);return r&&r.place!=null?r.place:null;}
+
+/* ===== BARÈME =====
+   On saisit directement les POINTS BRUTS de chaque manche.
+   Le classement général = somme des points bruts de toutes les épreuves.
+   Non saisi => 0 pour cette épreuve.
+*/
+function pointsForEpreuve(eid){
+  const map = {};
+  places.filter(x=>x.epreuve_id===eid && x.place!=null).forEach(x=>{
+    map[x.participant_id] = x.place;
+  });
+  return map; // participant_id -> points bruts
+}
+function allPoints(){
+  const total={}; const perEp={};
+  participants.forEach(p=>total[p.id]=0);
+  epreuves.forEach(e=>{
+    const m=pointsForEpreuve(e.id); perEp[e.id]=m;
+    for(const pid in m) total[pid]=(total[pid]||0)+m[pid];
+  });
+  return {total, perEp};
+}
+
+/* ===== classement : total décroissant ===== */
+/* En cas d'égalité, on départage à la main le jour J (tirage au sort
+   d'une épreuve rejouée). Ici, tri stable secondaire par nom. */
+function ranking(){
+  const {total,perEp}=allPoints();
+  const rows=participants.map(p=>{
+    const perEpPts=epreuves.map(e=>perEp[e.id][p.id]);
+    return {p, perEpPts, total:total[p.id]||0};
+  });
+  rows.sort((a,b)=>{
+    if(b.total!==a.total) return b.total-a.total;
+    return a.p.nom.localeCompare(b.p.nom);
+  });
+  return rows;
+}
+
+/* ===== rendu podium ===== */
+function renderPodium(){
+  const box=$("#podium"); box.innerHTML="";
+  const r=ranking().filter(x=>x.total>0);
+  if(!r.length){box.innerHTML='<p class="muted" style="padding:20px 0">En attente des premiers résultats…</p>';return;}
+  const order=[1,0,2]; const medals=["🥇","🥈","🥉"], cls=["s1","s2","s3"], rk=["1ᵉʳ","2ᵉ","3ᵉ"];
+  order.forEach(idx=>{
+    if(!r[idx])return;
+    const col=el("div","podcol");
+    const d=el("div","step "+cls[idx]);
+    d.innerHTML=`<span class="pod-drop">
+        <span class="medal">${medals[idx]}</span>
+        <span class="nm">${esc(r[idx].p.nom)}</span>
+        <span class="pts">${r[idx].total} pts</span>
+      </span>`;
+    const lab=el("div","plabel "+cls[idx]+"-lab");
+    lab.textContent=rk[idx];
+    col.appendChild(d);
+    col.appendChild(el("div","podseg"));
+    col.appendChild(lab);
+    box.appendChild(col);
+  });
+  // déclenche l'animation de chute (double rAF + fallback)
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    box.querySelectorAll(".pod-drop").forEach(n=>n.classList.add("play"));
+  }));
+  setTimeout(()=>box.querySelectorAll(".pod-drop").forEach(n=>n.classList.add("play")),80);
+}
+
+/* ===== rendu classement ===== */
+function renderRank(){
+  const t=$("#rankTable"), thead=t.querySelector("thead"), tb=t.querySelector("tbody");
+  const r=ranking();
+  const htr=el("tr");
+  htr.innerHTML=`<th class="stick stick-rank"></th><th class="stick stick-name">Participant</th>`+
+    epreuves.map((e,i)=>`<th class="ephead"><span class="epemo">${epEmoji(e.nom)}</span><span class="epname">${esc(e.nom)}</span></th>`).join("")+
+    `<th style="text-align:right">Total</th>`;
+  thead.innerHTML=""; thead.appendChild(htr);
+  tb.innerHTML="";
+  if(!r.length){$("#emptyPublic").textContent="Aucun participant pour le moment.";return;}
+  // le podium affiche déjà le top 3 : le tableau démarre à la 4e place
+  const rest = r.filter(x=>x.total>0).slice(3);
+  const zero = r.filter(x=>x.total===0);
+  const shown = rest.concat(zero);
+  if(!shown.length){$("#emptyPublic").textContent="Seul le podium est renseigné pour l'instant.";return;}
+  $("#emptyPublic").textContent="";
+  shown.forEach((row)=>{
+    const rankNum = r.indexOf(row)+1;
+    const tr=el("tr");
+    tr.innerHTML=`<td class="rank stick stick-rank">${rankNum}</td><td class="stick stick-name">${esc(row.p.nom)}</td>`+
+      row.perEpPts.map(v=>`<td class="pt">${v==null?"·":v}</td>`).join("")+
+      `<td class="total">${row.total}</td>`;
+    tb.appendChild(tr);
+  });
+  updateScrollHint();
+}
+function updateScrollHint(){
+  const sc=$("#rankScroll"), hint=$("#scrollHint");
+  if(!sc||!hint)return;
+  const check=()=>{
+    const overflow = sc.scrollWidth - sc.clientWidth > 8;
+    const atEnd = sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 8;
+    hint.classList.toggle("gone", !overflow || atEnd);
+  };
+  sc.onscroll=check;
+  setTimeout(check,60);
+}
+
+/* ===== rendu admin ===== */
+function renderAdmin(){
+  const {total}=allPoints();
+  const pl=$("#partList"); pl.innerHTML="";
+  participants.forEach(p=>{
+    const d=el("div","grid-row");
+    d.innerHTML=`<span>${esc(p.nom)} <span class="pill">${total[p.id]||0} pts</span></span>`;
+    const b=el("button","btn danger sm");b.textContent="Suppr.";b.onclick=()=>delPart(p.id);
+    d.appendChild(b);pl.appendChild(d);
+  });
+  if(!participants.length)pl.innerHTML='<p class="muted">Aucun participant.</p>';
+
+  const epl=$("#epList"); epl.innerHTML="";
+  epreuves.forEach(e=>{
+    const d=el("div","grid-row");
+    d.innerHTML=`<span>${esc(e.nom)}</span>`;
+    const b=el("button","btn danger sm");b.textContent="Suppr.";b.onclick=()=>delEp(e.id);
+    d.appendChild(b);epl.appendChild(d);
+  });
+  if(!epreuves.length)epl.innerHTML='<p class="muted">Aucune épreuve.</p>';
+
+  const sel=$("#epSelect"); const cur=sel.value;
+  sel.innerHTML=epreuves.map(e=>`<option value="${e.id}">${esc(e.nom)}</option>`).join("");
+  if(cur)sel.value=cur;
+  renderScoreGrid();
+  renderScoreGridFull();
+}
+/* score max indicatif par épreuve (d'après son nom) */
+function maxForEp(nom){
+  const n=(nom||"").toLowerCase();
+  if(n.includes("chamboule")) return 10;
+  if(n.includes("pétanque")||n.includes("petanque")) return 15;
+  if(n.includes("anneau")) return 4;
+  if(n.includes("cornhole")) return 4;
+  if(n.includes("sabot")) return 5;
+  if(n.includes("verre")) return 15;
+  if(n.includes("mölkky")||n.includes("molkky")) return 12;
+  if(n.includes("fer")||n.includes("cheval")) return 15;
+  if(n.includes("agilité")||n.includes("agilite")||n.includes("parcours")) return 5;
+  return null; // lancer de palet : selon barème cible
+}
+/* grille "une épreuve à la fois" */
+function renderScoreGrid(){
+  const eid=parseInt($("#epSelect").value); const g=$("#scoreGrid"); g.innerHTML="";
+  if(!eid||!participants.length){g.innerHTML='<p class="muted">Ajoute une épreuve et des participants.</p>';return;}
+  const ep=epreuves.find(e=>e.id===eid); const mx=ep?maxForEp(ep.nom):null;
+  if(mx!=null){
+    const info=el("div","muted"); info.style.marginBottom="8px";
+    info.innerHTML=`Score max de l'épreuve : <b>${mx} points</b>`;
+    g.appendChild(info);
+  }
+  participants.forEach(p=>{
+    const d=el("div","grid-row");
+    const left=el("span"); left.textContent=p.nom;
+    const wrap=el("div"); wrap.style.display="flex";wrap.style.alignItems="center";wrap.style.gap="8px";
+    const inp=el("input","score-in"); inp.type="number";inp.min="0";inp.placeholder="pts";inp.inputMode="numeric";
+    const sv=scoreOf(p.id,eid); if(sv!=null)inp.value=sv;
+    inp.onchange=()=>{
+      let v=parseInt(inp.value); if(isNaN(v)||v<0){v=null;inp.value="";}
+      saveScore(p.id,eid,v);
+    };
+    wrap.append(inp,el("span","maxhint")).lastChild.textContent="pts";
+    d.append(left,wrap); g.appendChild(d);
+  });
+}
+/* grille "tableau complet" type Excel : joueurs × épreuves */
+function renderScoreGridFull(){
+  const g=$("#scoreGridFull"); g.innerHTML="";
+  if(!participants.length||!epreuves.length){g.innerHTML='<p class="muted">Ajoute des participants et des épreuves.</p>';return;}
+  const {total}=allPoints();
+  const wrap=el("div","scroll-x");
+  const t=el("table");
+  const thead=el("thead"), htr=el("tr");
+  htr.innerHTML=`<th class="stick">Participant</th>`+
+    epreuves.map(e=>`<th><span class="emo">${epEmoji(e.nom)}</span>${esc(e.nom)}</th>`).join("")+
+    `<th class="tot">Total</th>`;
+  thead.appendChild(htr); t.appendChild(thead);
+  const tb=el("tbody");
+  participants.forEach(p=>{
+    const tr=el("tr");
+    const nameTd=el("td","stick"); nameTd.textContent=p.nom; tr.appendChild(nameTd);
+    epreuves.forEach(e=>{
+      const td=el("td");
+      const inp=el("input"); inp.type="number";inp.min="0";inp.placeholder="·";inp.inputMode="numeric";
+      const sv=scoreOf(p.id,e.id); if(sv!=null)inp.value=sv;
+      inp.onchange=()=>{
+        let v=parseInt(inp.value); if(isNaN(v)||v<0){v=null;inp.value="";}
+        saveScore(p.id,e.id,v);
+      };
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    const tot=el("td","tot"); tot.textContent=total[p.id]||0; tr.appendChild(tot);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb); wrap.appendChild(t); g.appendChild(wrap);
+}
+
+/* ===== data ===== */
+async function loadAll(){
+  if(!CONFIGURED){demoData();return;}
+  const [pa,ep,pl]=await Promise.all([
+    sb.from("participants").select("*").order("created_at"),
+    sb.from("epreuves").select("*").order("ordre"),
+    sb.from("places").select("*")
+  ]);
+  participants=pa.data||[]; epreuves=ep.data||[]; places=pl.data||[];
+  renderAll();
+}
+function renderAll(){renderPodium();renderRank();if(isAdmin)renderAdmin();}
+
+async function addPart(){
+  const nom=$("#newPart").value.trim(); if(!nom)return; $("#newPart").value="";
+  if(!CONFIGURED){participants.push({id:Date.now(),nom});renderAll();return;}
+  await sb.from("participants").insert({nom}); loadAll();
+}
+async function delPart(id){
+  if(!confirm("Supprimer ce participant et ses résultats ?"))return;
+  if(!CONFIGURED){participants=participants.filter(p=>p.id!==id);places=places.filter(s=>s.participant_id!==id);renderAll();return;}
+  await sb.from("participants").delete().eq("id",id); loadAll();
+}
+async function addEp(){
+  const nom=$("#newEp").value.trim(); if(!nom)return; $("#newEp").value="";
+  const ordre=epreuves.length+1;
+  if(!CONFIGURED){epreuves.push({id:Date.now(),nom,ordre});renderAll();return;}
+  await sb.from("epreuves").insert({nom,ordre}); loadAll();
+}
+async function delEp(id){
+  if(!confirm("Supprimer cette épreuve et ses résultats ?"))return;
+  if(!CONFIGURED){epreuves=epreuves.filter(e=>e.id!==id);places=places.filter(s=>s.epreuve_id!==id);renderAll();return;}
+  await sb.from("epreuves").delete().eq("id",id); loadAll();
+}
+async function saveScore(pid,eid,pts){
+  const ex=places.find(s=>s.participant_id===pid&&s.epreuve_id===eid);
+  if(ex)ex.place=pts; else places.push({participant_id:pid,epreuve_id:eid,place:pts});
+  renderPodium();renderRank();
+  if(isAdmin){renderScoreGrid();renderScoreGridFull();renderAdmin();}
+  if(!CONFIGURED)return;
+  await sb.from("places").upsert({participant_id:pid,epreuve_id:eid,place:pts,updated_at:new Date().toISOString()},
+    {onConflict:"participant_id,epreuve_id"});
+}
+
+/* ===== remise à zéro des scores ===== */
+/* Efface uniquement les résultats (table places). Les participants
+   et les épreuves sont conservés. Confirmation en tapant EFFACER. */
+async function resetScores(){
+  if(!places.length){alert("Aucun score à effacer.");return;}
+  const code=prompt("⚠️ Cette action efface TOUS les scores (joueurs et épreuves conservés).\n\nTape EFFACER en majuscules pour confirmer :");
+  if(code==null)return;
+  if(code.trim()!=="EFFACER"){alert("Confirmation incorrecte. Rien n'a été effacé.");return;}
+  if(!CONFIGURED){places=[];renderAll();return;}
+  const ids=[...new Set(participants.map(p=>p.id))];
+  if(ids.length){
+    await sb.from("places").delete().in("participant_id",ids);
+  }
+  places=[];
+  loadAll();
+}
+
+/* ===== realtime ===== */
+function subscribe(){
+  if(!CONFIGURED)return;
+  sb.channel("olymp")
+    .on("postgres_changes",{event:"*",schema:"public",table:"places"},()=>loadAll())
+    .on("postgres_changes",{event:"*",schema:"public",table:"participants"},()=>loadAll())
+    .on("postgres_changes",{event:"*",schema:"public",table:"epreuves"},()=>loadAll())
+    .subscribe();
+}
+
+/* ===== auth ===== */
+async function login(){
+  const code=$("#adminPass").value.trim(); let ok=false;
+  if(!CONFIGURED){ok=(code==="demo");}
+  else{const {data}=await sb.from("config").select("valeur").eq("cle","admin_code").single(); ok=data&&data.valeur===code;}
+  if(ok){isAdmin=true;$("#lockCard").classList.add("hide");$("#adminPanel").classList.remove("hide");renderAdmin();}
+  else{$("#lockMsg").textContent="Code incorrect.";}
+}
+function logout(){isAdmin=false;$("#adminPanel").classList.add("hide");$("#lockCard").classList.remove("hide");$("#adminPass").value="";$("#lockMsg").textContent="";}
+
+/* ===== tabs ===== */
+$("#tabPublic").onclick=()=>{setTab("Public");};
+$("#tabAdmin").onclick=()=>{setTab("Admin");};
+$("#tabRegles").onclick=()=>{fillRegles();setTab("Regles");};
+function setTab(which){
+  ["Public","Admin","Regles"].forEach(v=>{
+    $("#tab"+v).classList.toggle("active", v===which);
+    $("#view"+v).classList.toggle("hide", v!==which);
+  });
+}
+function fillRegles(){
+  const ol=$("#reglesEpreuves"); if(!ol)return;
+  ol.innerHTML = epreuves.map(e=>`<li>${esc(e.nom)}</li>`).join("");
+}
+
+/* ===== wiring ===== */
+$("#addPart").onclick=addPart;$("#newPart").addEventListener("keydown",e=>{if(e.key==="Enter")addPart();});
+$("#addEp").onclick=addEp;$("#newEp").addEventListener("keydown",e=>{if(e.key==="Enter")addEp();});
+$("#epSelect").onchange=renderScoreGrid;
+$("#toggleGrid").onclick=()=>{
+  const g=$("#scoreGrid"), f=$("#scoreGridFull"), sel=$("#epSelect"), btn=$("#toggleGrid");
+  const showFull=f.classList.contains("hide");
+  f.classList.toggle("hide",!showFull);
+  g.classList.toggle("hide",showFull);
+  sel.classList.toggle("hide",showFull);
+  btn.textContent=showFull?"Vue épreuve par épreuve":"Vue tableau complet";
+  if(showFull)renderScoreGridFull();
+};
+$("#loginBtn").onclick=login;$("#adminPass").addEventListener("keydown",e=>{if(e.key==="Enter")login();});
+$("#logoutBtn").onclick=logout;
+$("#resetScores").onclick=resetScores;
+
+/* ===== demo ===== */
+function demoData(){
+  $("#foot").innerHTML="⚠️ Mode démo — configure SUPABASE_URL et SUPABASE_ANON pour le live. (code admin démo : <b>demo</b>)";
+  epreuves=[{id:1,nom:"Chamboule-tout",ordre:1},{id:2,nom:"Pétanque – précision",ordre:2},{id:3,nom:"Mölkky",ordre:3}];
+  participants=[{id:1,nom:"Francis"},{id:2,nom:"Marie-Christine"},{id:3,nom:"Hugo"},{id:4,nom:"Janine"},{id:5,nom:"Cléo"}];
+  // place = points bruts saisis
+  places=[
+    {participant_id:1,epreuve_id:1,place:7},{participant_id:2,epreuve_id:1,place:10},
+    {participant_id:3,epreuve_id:1,place:5},{participant_id:4,epreuve_id:1,place:3},
+    {participant_id:5,epreuve_id:1,place:8},
+    {participant_id:1,epreuve_id:2,place:11},{participant_id:3,epreuve_id:2,place:9},
+    {participant_id:5,epreuve_id:2,place:15},
+    {participant_id:2,epreuve_id:3,place:12},{participant_id:5,epreuve_id:3,place:6}
+  ];
+  renderAll();
+}
+
+/* ===== init ===== */
+if(CONFIGURED)$("#foot").innerHTML='';
+loadAll(); subscribe();
+</script>
+</body>
+</html>
