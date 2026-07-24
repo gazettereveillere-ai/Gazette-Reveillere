@@ -178,9 +178,7 @@
   .reg-bul li{padding:5px 0;font-size:15px;line-height:1.45}
   @media (max-width:560px){.step .nm{font-size:13px}}
 
-  /* ============================================================
-     ANIMATION NOUVEAU LEADER — bandeau + confettis
-     ============================================================ */
+  /* ===== ANIMATION NOUVEAU LEADER ===== */
   #leaderFx{position:fixed;inset:0;z-index:60;pointer-events:none;display:none}
   #leaderFx.on{display:block}
   .lf-band{position:absolute;top:38%;left:0;right:0;
@@ -206,9 +204,7 @@
     100%{opacity:.9;transform:translateY(105vh) rotate(720deg)}
   }
 
-  /* ============================================================
-     RÉVÉLATION FINALE — compte à rebours plein écran
-     ============================================================ */
+  /* ===== RÉVÉLATION FINALE ===== */
   #revealFx{position:fixed;inset:0;z-index:70;display:none;
     background:rgba(36,28,20,.94);backdrop-filter:blur(4px)}
   #revealFx.on{display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -223,7 +219,6 @@
   }
   .rv-title{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.34em;
     font-size:clamp(14px,2.4vw,22px);color:#e9e2d0;margin-bottom:20px}
-  /* podium final révélé marche par marche */
   .rv-podium{display:flex;align-items:flex-end;justify-content:center;gap:14px;
     max-width:min(920px,92vw);width:100%}
   .rv-col{flex:1 1 0;max-width:280px;display:flex;flex-direction:column;align-items:stretch;
@@ -250,49 +245,100 @@
 
   /* ===== GRAND ÉCRAN / TÉLÉ ===== */
   @media (min-width:1100px){
-    .wrap{max-width:1400px;padding:34px 40px 60px}
-    .eyebrow{font-size:16px;letter-spacing:.32em}
-    h1{font-size:clamp(64px,6vw,92px)}
-    .sub{font-size:22px;margin-top:12px}
-    .tabs{margin:26px 0 10px}
-    .tab{font-size:19px;padding:12px 26px}
-    .tabs-bottom .tab{font-size:15px;padding:9px 18px}
-    .card{padding:28px 32px;border-radius:22px;margin-top:24px}
-    .card h2{font-size:32px;margin-bottom:20px}
-    .podium{gap:22px;margin:20px auto 6px;max-width:960px}
-    .podcol{max-width:300px}
-    .podseg{height:18px;margin:0 -11px}
-    .step{padding:22px 14px 18px;border-radius:18px 18px 0 0}
-    .step .medal{font-size:52px}
-    .step .nm{font-size:30px}
-    .step .pts{font-size:24px}
-    .plabel{font-size:56px;margin-top:26px}
-    .s1{height:280px}.s2{height:210px}.s3{height:168px}
-    table{font-size:26px}
-    th{font-size:15px}
-    th,td{padding:16px 14px}
-    td.rank{width:60px;font-size:30px}
-    th.stick-name,td.stick-name{left:60px;min-width:280px}
-    .mv{font-size:18px;margin-left:6px}
-    .sound-btn{font-size:18px;padding:8px 18px}
-    .foot{font-size:16px}
+    .wrap{max-width:1400px;padding:24px 40px 40px}
+    .eyebrow{font-size:14px;letter-spacing:.28em}
+    h1{font-size:clamp(48px,4.6vw,68px)}
+    .sub{font-size:17px;margin-top:8px}
+    .tabs{margin:16px 0 8px}
+    .tab{font-size:16px;padding:9px 20px}
+    .tabs-bottom .tab{font-size:14px;padding:8px 16px}
+    .card{padding:18px 24px;border-radius:18px;margin-top:14px}
+    .card h2{font-size:22px;margin-bottom:12px}
+    .podium{gap:16px;margin:12px auto 4px;max-width:720px}
+    .podcol{max-width:220px}
+    .podseg{height:12px;margin:0 -8px}
+    .step{padding:14px 10px 12px;border-radius:14px 14px 0 0}
+    .step .medal{font-size:36px}
+    .step .nm{font-size:20px}
+    .step .pts{font-size:16px}
+    .plabel{font-size:36px;margin-top:16px}
+    .s1{height:170px}.s2{height:128px}.s3{height:102px}
+    table{font-size:16px}
+    th{font-size:11px}
+    th,td{padding:7px 10px}
+    td.rank{width:40px;font-size:17px}
+    th.stick-name,td.stick-name{left:40px;min-width:190px}
+    .mv{font-size:12px;margin-left:4px}
+    .sound-btn{font-size:14px;padding:6px 14px}
+    .foot{font-size:13px}
   }
   @media (min-width:1600px){
-    h1{font-size:110px}
-    table{font-size:30px}
-    .step .nm{font-size:36px}
-    .step .medal{font-size:64px}
-    .s1{height:330px}.s2{height:250px}.s3{height:200px}
+    h1{font-size:80px}
+    table{font-size:19px}
+    th,td{padding:9px 12px}
+    .step .nm{font-size:24px}
+    .step .medal{font-size:44px}
+    .s1{height:200px}.s2{height:150px}.s3{height:118px}
   }
+
+  /* ===== VUE PLEIN CADRE — calibrée 1365x911, ~19 joueurs ===== */
+  body.tv-mode{overflow:hidden;height:100vh}
+  body.tv-mode .wrap{max-width:100%;padding:10px 16px;height:100vh;
+    display:flex;flex-direction:column}
+  body.tv-mode header.top{display:none}
+  body.tv-mode .tabs{display:none}
+  body.tv-mode .tabs-bottom{display:none}
+  body.tv-mode .foot{display:none}
+  body.tv-mode #viewRegles{display:none!important}
+  body.tv-mode #viewAdmin{display:none!important}
+
+  body.tv-mode #viewPublic{flex:1;display:flex;flex-direction:column;
+    min-height:0;gap:8px}
+
+  body.tv-mode .card{margin-top:0;padding:8px 14px;flex-shrink:0}
+  body.tv-mode .card h2{font-size:14px;margin-bottom:4px}
+
+  body.tv-mode .podium{margin:2px auto;gap:8px;max-width:420px}
+  body.tv-mode .podcol{max-width:120px}
+  body.tv-mode .step{padding:6px 4px 5px}
+  body.tv-mode .step .medal{font-size:18px;margin-bottom:0}
+  body.tv-mode .step .nm{font-size:11px}
+  body.tv-mode .step .pts{font-size:10px}
+  body.tv-mode .s1{height:64px}
+  body.tv-mode .s2{height:50px}
+  body.tv-mode .s3{height:40px}
+  body.tv-mode .podseg{height:6px}
+  body.tv-mode .plabel{font-size:14px;margin-top:4px;margin-bottom:2px}
+
+  body.tv-mode .card:has(#rankTable){flex:1;display:flex;flex-direction:column;
+    min-height:0;overflow:hidden}
+  body.tv-mode .scroll-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
+  body.tv-mode .scroll-x{flex:1;min-height:0}
+  body.tv-mode table{font-size:13px;height:100%}
+  body.tv-mode th,body.tv-mode td{padding:3px 6px}
+  body.tv-mode td.rank{width:26px;font-size:14px}
+  body.tv-mode th.stick-name,body.tv-mode td.stick-name{left:26px;min-width:110px}
+  body.tv-mode .mv{font-size:9px}
+  body.tv-mode .ephead{min-width:56px}
+  body.tv-mode .ephead .epemo{font-size:13px}
+  body.tv-mode .ephead .epname{font-size:8px}
+  body.tv-mode .scroll-hint{font-size:10px;margin-top:2px}
+
+  #exitTv{position:fixed;top:6px;right:6px;z-index:80;display:none;
+    font:inherit;font-size:11px;padding:4px 10px;border-radius:999px;
+    border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
+    cursor:pointer;opacity:.55}
+  #exitTv:hover{opacity:1}
+  body.tv-mode #exitTv{display:block}
 </style>
 </head>
 <body>
 <div id="bgshow"></div>
 <div id="bgveil"></div>
 
-<!-- calques d'animation -->
 <div id="leaderFx"></div>
 <div id="revealFx"></div>
+<button id="exitTv" title="Quitter la vue plein cadre">✕ Quitter</button>
 
 <div class="wrap">
   <header class="top">
@@ -511,7 +557,6 @@ function initAudio(){
     return true;
   }catch(e){ return false; }
 }
-/* note simple : freq, départ (s), durée (s), volume, timbre */
 function note(freq,start,dur,vol,type){
   if(!audioCtx && !initAudio()) return;
   if(audioCtx.state==="suspended") audioCtx.resume();
@@ -526,13 +571,10 @@ function note(freq,start,dur,vol,type){
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.start(t0); osc.stop(t0+dur+0.02);
 }
-/* note "cuivre" : fondamentale + harmoniques, attaque douce.
-   Bien plus proche d'une trompette qu'un simple bip. */
 function brass(freq,start,dur,vol){
   if(!audioCtx && !initAudio()) return;
   if(audioCtx.state==="suspended") audioCtx.resume();
   const t0 = audioCtx.currentTime + start;
-  /* les harmoniques donnent le timbre cuivré */
   const parts=[[1,1],[2,.42],[3,.24],[4,.12],[5,.06]];
   parts.forEach(([mult,amp])=>{
     const osc=audioCtx.createOscillator();
@@ -541,50 +583,43 @@ function brass(freq,start,dur,vol){
     osc.frequency.setValueAtTime(freq*mult,t0);
     const v=vol*amp;
     g.gain.setValueAtTime(0.0001,t0);
-    g.gain.exponentialRampToValueAtTime(v,t0+0.045);      /* attaque de cuivre */
+    g.gain.exponentialRampToValueAtTime(v,t0+0.045);
     g.gain.setValueAtTime(v,t0+dur*0.62);
     g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
     osc.connect(g); g.connect(audioCtx.destination);
     osc.start(t0); osc.stop(t0+dur+0.03);
   });
 }
-/* clic discret — saisie d'un score */
 function sndClick(){
   if(!soundOn) return;
   note(880,0,0.05,0.10,"sine");
 }
-/* mouvement ordinaire dans le tableau — petit motif de trompette */
 function sndMove(up){
   if(!soundOn) return;
   if(up){ brass(523,0,0.16,0.09); brass(659,0.14,0.26,0.09); }
   else  { brass(523,0,0.16,0.07); brass(392,0.14,0.28,0.07); }
 }
-/* entrée dans le top 3 (2ᵉ ou 3ᵉ) — trois notes montantes, plus affirmé */
 function sndPodium(){
   if(!soundOn) return;
   brass(523,0,0.15,0.11);
   brass(659,0.14,0.15,0.11);
   brass(784,0.28,0.40,0.12);
 }
-/* nouveau leader — fanfare style orgue de stade */
 function sndFanfare(){
   if(!soundOn) return;
   const seq=[[392,0,0.15],[523,0.15,0.15],[659,0.30,0.15],
              [784,0.45,0.24],[659,0.71,0.13],[784,0.86,0.55]];
   seq.forEach(([f,s,d])=>brass(f,s,d,0.13));
 }
-/* roulement de tambour pour le compte à rebours */
 function sndRoll(dur){
   if(!audioCtx && !initAudio()) return;
   if(!soundOn) return;
   if(audioCtx.state==="suspended") audioCtx.resume();
   const t0=audioCtx.currentTime;
-  /* bruit blanc filtré = tambour */
   const len=Math.floor(audioCtx.sampleRate*dur);
   const buf=audioCtx.createBuffer(1,len,audioCtx.sampleRate);
   const data=buf.getChannelData(0);
   for(let i=0;i<len;i++){
-    /* enveloppe de frappes rapides qui s'accélèrent */
     const t=i/audioCtx.sampleRate;
     const beat=Math.abs(Math.sin(t*Math.PI*26));
     data[i]=(Math.random()*2-1)*beat*0.5;
@@ -600,13 +635,11 @@ function sndRoll(dur){
   src.connect(flt); flt.connect(g); g.connect(audioCtx.destination);
   src.start(t0); src.stop(t0+dur);
 }
-/* fanfare finale, plus longue et plus large */
 function sndFinal(){
   if(!soundOn) return;
   const seq=[[392,0,0.20],[523,0.20,0.20],[659,0.40,0.20],[784,0.60,0.30],
              [784,0.95,0.18],[880,1.13,0.18],[1047,1.31,0.85]];
   seq.forEach(([f,s,d])=>brass(f,s,d,0.14));
-  /* basse qui soutient l'accord final */
   brass(262,0.60,1.55,0.07);
 }
 function setSound(on){
@@ -633,13 +666,11 @@ const CONF_COLORS=["#c9a227","#c25a2e","#3a4a5a","#3f7d4e","#f2d873","#9aa0a6"];
 function playLeaderFx(nom,pts){
   const box=$("#leaderFx");
   box.innerHTML="";
-  /* le bandeau qui traverse */
   const band=el("div","lf-band");
   band.innerHTML=`<div class="lf-kicker">Nouveau leader</div>
     <div class="lf-name">${esc(nom)}</div>
     <div class="lf-sub">${pts} points — prend la tête</div>`;
   box.appendChild(band);
-  /* les confettis */
   for(let i=0;i<70;i++){
     const c=el("div","conf");
     c.style.left=(Math.random()*100)+"%";
@@ -654,9 +685,9 @@ function playLeaderFx(nom,pts){
 }
 
 /* ============================================================
-   RÉVÉLATION FINALE — compte à rebours puis podium
+   RÉVÉLATION FINALE
    ============================================================ */
-let revealSeen=null;   /* dernier horodatage de révélation déjà joué */
+let revealSeen=null;
 let revealRunning=false;
 
 function playReveal(){
@@ -668,7 +699,6 @@ function playReveal(){
   box.innerHTML="";
   box.classList.add("on");
 
-  /* étape 1 : le compte à rebours */
   const count=el("div","rv-count");
   const title=el("div","rv-title"); title.textContent="Podium final";
   box.appendChild(title); box.appendChild(count);
@@ -678,7 +708,7 @@ function playReveal(){
   const tick=()=>{
     count.textContent=n;
     count.classList.remove("pop");
-    void count.offsetWidth;      /* relance l'animation */
+    void count.offsetWidth;
     count.classList.add("pop");
     n--;
     if(n>=1) setTimeout(tick,1000);
@@ -686,14 +716,13 @@ function playReveal(){
   };
   tick();
 
-  /* étape 2 : les marches montent une par une */
   function showPodium(){
     box.innerHTML="";
     const t=el("div","rv-title"); t.textContent="Les Jeux Jeannettiques 2026";
     box.appendChild(t);
 
     const pod=el("div","rv-podium");
-    const order=[1,0,2];                       /* 2ᵉ, 1ᵉʳ, 3ᵉ visuellement */
+    const order=[1,0,2];
     const medals=["🥇","🥈","🥉"], cls=["rv-1","rv-2","rv-3"], lab=["1ᵉʳ","2ᵉ","3ᵉ"];
     const cols={};
     order.forEach(idx=>{
@@ -717,7 +746,6 @@ function playReveal(){
     close.onclick=()=>{ box.classList.remove("on"); box.innerHTML=""; revealRunning=false; };
     box.appendChild(close);
 
-    /* révélation dans l'ordre du suspense : 3ᵉ, puis 2ᵉ, puis 1ᵉʳ */
     const seq=[2,1,0];
     seq.forEach((idx,i)=>{
       setTimeout(()=>{
@@ -726,7 +754,6 @@ function playReveal(){
         else if(soundOn) brass(idx===2?523:659,0,0.30,0.11);
       }, 700*i+300);
     });
-    /* fermeture automatique au bout d'un moment */
     setTimeout(()=>{
       if(box.classList.contains("on")){
         box.classList.remove("on"); box.innerHTML=""; revealRunning=false;
@@ -734,7 +761,6 @@ function playReveal(){
     },16000);
   }
 }
-/* pluie de confettis par-dessus la révélation */
 function playConfettiBurst(){
   const box=$("#revealFx");
   for(let i=0;i<90;i++){
@@ -747,7 +773,6 @@ function playConfettiBurst(){
     box.appendChild(c);
   }
 }
-/* l'admin écrit un horodatage : tous les écrans le voient via le Realtime */
 async function triggerReveal(){
   if(!CONFIGURED){ playReveal(); return; }
   const stamp=String(Date.now());
@@ -758,17 +783,16 @@ async function triggerReveal(){
           "\n\nVérifie qu'une ligne cle='reveal' existe dans la table config.");
     return;
   }
-  revealSeen=stamp;   /* on évite de la rejouer deux fois côté admin */
+  revealSeen=stamp;
   playReveal();
 }
-/* on surveille la valeur de reveal à chaque rechargement */
 async function checkReveal(){
   if(!CONFIGURED) return;
   const {data}=await sb.from("config").select("valeur").eq("cle","reveal").single();
   if(!data) return;
   const v=data.valeur;
   if(v && v!=="0"){
-    if(revealSeen===null){ revealSeen=v; return; }  /* première lecture : on note sans jouer */
+    if(revealSeen===null){ revealSeen=v; return; }
     if(v!==revealSeen){ revealSeen=v; playReveal(); }
   }
 }
@@ -818,7 +842,6 @@ function detectMoves(rows){
         flash[id]=true;
         anyMove=true;
         if(delta>0) bestUp=true;
-        /* entrée dans le top 3 (hors 1ʳᵉ place, traitée à part) */
         if(delta>0 && now<=3 && before>3) enteredPodium=true;
         if(delta>0 && (now===2||now===3) && before>now) enteredPodium=true;
       }
@@ -830,7 +853,6 @@ function detectMoves(rows){
     }
   }
 
-  /* hiérarchie des sons : leader > podium > mouvement simple */
   if(leaderChanged){
     sndFanfare();
     if(newLeaderRow) playLeaderFx(newLeaderRow.p.nom,newLeaderRow.total);
@@ -958,7 +980,6 @@ function renderAdmin(){
     const d=el("div","grid-row");
     d.innerHTML=`<span>${esc(p.nom)} <span class="pill">${total[p.id]||0} pts</span></span>`;
     const acts=el("div","acts");
-    /* modification du prénom */
     const bEdit=el("button","btn ghost sm");
     bEdit.textContent="Modifier";
     bEdit.onclick=()=>editPart(p.id,p.nom);
@@ -1087,7 +1108,6 @@ async function addPart(){
   if(!CONFIGURED){participants.push({id:Date.now(),nom});renderAll();return;}
   await sb.from("participants").insert({nom}); loadAll();
 }
-/* modification du prénom d'un participant */
 async function editPart(id,ancien){
   const nom=prompt("Nouveau nom du participant :",ancien);
   if(nom==null) return;
@@ -1112,7 +1132,6 @@ async function addEp(){
   if(!CONFIGURED){epreuves.push({id:Date.now(),nom,ordre});renderAll();return;}
   await sb.from("epreuves").insert({nom,ordre}); loadAll();
 }
-/* modification du nom d'une épreuve */
 async function editEp(id,ancien){
   const nom=prompt("Nouveau nom de l'épreuve :",ancien);
   if(nom==null) return;
@@ -1173,7 +1192,6 @@ function subscribe(){
     .on("postgres_changes",{event:"*",schema:"public",table:"participants"},()=>loadAll())
     .on("postgres_changes",{event:"*",schema:"public",table:"epreuves"},()=>loadAll())
     .on("postgres_changes",{event:"*",schema:"public",table:"config"},payload=>{
-      /* la révélation est déclenchée par un changement de la ligne reveal */
       const row=payload.new;
       if(row && row.cle==="reveal" && row.valeur && row.valeur!=="0"){
         if(row.valeur!==revealSeen){ revealSeen=row.valeur; playReveal(); }
@@ -1193,9 +1211,15 @@ async function login(){
 function logout(){isAdmin=false;$("#adminPanel").classList.add("hide");$("#lockCard").classList.remove("hide");$("#adminPass").value="";$("#lockMsg").textContent="";}
 
 /* ===== tabs ===== */
-$("#tabPublic").onclick=()=>{setTab("Public");};
+$("#tabPublic").addEventListener("click",()=>{
+  setTab("Public");
+  document.body.classList.add("tv-mode");
+});
 $("#tabAdmin").onclick=()=>{setTab("Admin");};
 $("#tabRegles").onclick=()=>{fillRegles();setTab("Regles");};
+$("#exitTv").onclick=()=>{
+  document.body.classList.remove("tv-mode");
+};
 function setTab(which){
   ["Public","Admin","Regles"].forEach(v=>{
     $("#tab"+v).classList.toggle("active", v===which);
@@ -1250,6 +1274,9 @@ loadPrev();
 try{ if(localStorage.getItem("jj_sound")==="1"){ soundOn=true; setSound(true); } }catch(e){}
 if(CONFIGURED)$("#foot").innerHTML='';
 loadAll(); subscribe(); checkReveal();
+
+/* filet de sécurité : rechargement périodique même si le Realtime échoue */
+setInterval(()=>{ if(!revealRunning) loadAll(); }, 5000);
 </script>
 </body>
 </html>
